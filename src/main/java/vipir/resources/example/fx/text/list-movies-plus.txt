@@ -10,7 +10,11 @@ High Fidelity,High Fidelity.jpg,200707140725,5879,green
 Lost In Translation,Lost In Translation.jpg,200707121430,6824,yellow
 Memento,Memento.jpg,200707121042,4952,purple
 Night At The Museum,Night At The Museum.jpg,200707211318,6417,green
-O Brother Where Art Thou?,O Brother Where Art Thou?.jpg,200710210006,5898,blue
+<<<<<<< HEAD
+O Brother Where Art Thou,O Brother Where Art Thou.jpg,200710210006,5898,blue
+=======
+O Brother Where Art Thou?,O Brother Where Art Thou.jpg,200710210006,5898,blue
+>>>>>>> d5e8085ce4c6c744086130dbf572abf7a9f75bef
 Serenity,Serenity.jpg,200707140626,4626,orange
 Shrek 2,Shrek 2.jpg,200707140703,5984,red
 Star Wars Episode II,Star Wars Episode II.jpg,200707121407,5991,yellow
