@@ -71,11 +71,11 @@ public class Video {
 		// Return the full URL of Video
 		return ("https://www.youtube.com/watch?v=" + this.id);
 	}
-	
+
 	public String toString() {
-		String s = 	"ID            : " + getID() + "\n" +
-					"Title         : " + getTitle() + "\n" +
-					"ThumbNail URL : " + getPicUrl() + "\n" +
+		String s = 	"ID            : " + getID() 		+ "\n" + 
+					"Title         : " + getTitle() 	+ "\n" + 
+					"ThumbNail URL : " + getPicUrl() 	+ "\n" + 
 					"Video URL     : " + getVideoUrl();
 		return s;
 	}
