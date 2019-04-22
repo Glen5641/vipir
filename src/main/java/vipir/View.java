@@ -13,6 +13,7 @@ import vipir.pane.FloatPane;
 import vipir.pane.GalleryPane;
 import vipir.pane.ImagePane;
 import vipir.pane.MediaPane;
+import vipir.pane.QueryPane;
 import vipir.pane.TablePane;
 import vipir.pane.WebPane;
 
@@ -26,7 +27,7 @@ public final class View {
 		windowHandler = new WindowHandler();
 		panes = new ArrayList<AbstractPane>();
 		panes.add(new TablePane(controller));
-		panes.add(new MediaPane(controller));
+		panes.add(new QueryPane(controller));
 		//panes.add(new CyclePane(controller));
 		//panes.add(new FloatPane(controller));
 		//panes.add(new ImagePane(controller));

@@ -25,6 +25,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 import vipir.Controller;
@@ -42,7 +44,7 @@ public final class QueryPane extends AbstractPane {
 	// Private Class Members
 	// **********************************************************************
 
-	private static final String NAME = "Table";
+	private static final String NAME = "Vipir";
 	private static final String HINT = "Table Layout for Images";
 
 	// **********************************************************************
@@ -115,7 +117,7 @@ public final class QueryPane extends AbstractPane {
 	// **********************************************************************
 
 	private Pane buildPane() {
-		data = loadFXData("list-movies.txt");
+		/*data = loadFXData("list-movies.txt");
 
 		// Transfer the data into an ObservableList to use as the table model
 		ObservableList<Record> records = FXCollections.observableArrayList();
@@ -174,10 +176,21 @@ public final class QueryPane extends AbstractPane {
 
 		// base = new BorderPane(table, null, rpane, null, lpane);
 		base = new BorderPane(splitPane, null, rpane, null, lpane);
+*/
+		base = new BorderPane(null, buildTitle(), null, null, null);
 
 		return base;
 	}
 
+	private Pane buildTitle() {
+		Label title = new Label("Vipir");
+		title.setFont(new Font("Arial", 100));
+		title.setTextFill(Color.TEAL);
+		title.setPadding(new Insets(40.0, 40.0, 40.0, 40.0));
+		BorderPane pane = new BorderPane(null, null, null, null, title);
+		return pane;
+	}
+	
 	// **********************************************************************
 	// Private Methods (Change Handlers)
 	// **********************************************************************
