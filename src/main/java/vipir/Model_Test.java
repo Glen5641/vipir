@@ -2,6 +2,7 @@ package vipir;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 /**
  * Test Cases for Model
@@ -16,7 +17,9 @@ public class Model_Test {
 		Model 		model      = new Model(controller);
 		controller.setModel(model);
 		
-		model.setSearch("Games");
+		System.out.println("Search Something!!!");
+		Scanner sc = new Scanner(System.in);
+		model.setSearch(sc.nextLine());
 		
 		ArrayList<Video> 		videos      = model.getVideosList();
 		HashMap<String, Video> 	videomap	= model.getVideosMap();
@@ -28,6 +31,6 @@ public class Model_Test {
 		Video 					vid         = videos.get(0);
 		System.out.println("Query         : " + model.getQuery());		
 		System.out.println(vid.toString());
-
+		sc.close();
 	}
 }
