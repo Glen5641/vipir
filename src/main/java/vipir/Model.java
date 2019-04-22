@@ -1,6 +1,8 @@
 
 package vipir;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -10,6 +12,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+import java.util.StringTokenizer;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
@@ -68,6 +71,16 @@ public final class Model {
 	private final HashMap<String, Object> properties;
 
 	// Structures for Caching Most Recent Search
+	private static ArrayList<Video> action = null;
+	private static ArrayList<Video> comedy = null;
+	private static ArrayList<Video> romance = null;
+	private static ArrayList<Video> horror = null;
+	private static ArrayList<Video> drama = null;
+	private static ArrayList<Video> fantasy = null;
+	private static ArrayList<Video> scifi = null;
+	private static ArrayList<Video> documentary = null;
+	private static ArrayList<Video> games = null;
+	private static ArrayList<Video> anime = null;
 	private ArrayList<Video> videos = null;
 	private HashMap<String, Video> videoMap = null;
 	private String query = "";
@@ -103,6 +116,7 @@ public final class Model {
 		videos = new ArrayList<Video>();
 		videoMap = new HashMap<String, Video>();
 
+		loadModelData();
 		// Init YouTube Object
 		try {
 			youtube = getYouTubeService();
@@ -173,6 +187,46 @@ public final class Model {
 			properties.put(key, value);
 			controller.update(key, value);
 		}
+	}
+
+	public ArrayList<Video> getAction() {
+		return action;
+	}
+
+	public ArrayList<Video> getComedy() {
+		return comedy;
+	}
+
+	public ArrayList<Video> getRomance() {
+		return romance;
+	}
+
+	public ArrayList<Video> getHorror() {
+		return horror;
+	}
+
+	public ArrayList<Video> getDrama() {
+		return drama;
+	}
+
+	public ArrayList<Video> getFantasy() {
+		return fantasy;
+	}
+
+	public ArrayList<Video> getScifi() {
+		return scifi;
+	}
+
+	public ArrayList<Video> getDocumentary() {
+		return documentary;
+	}
+
+	public ArrayList<Video> getGames() {
+		return games;
+	}
+
+	public ArrayList<Video> getAnime() {
+		return anime;
 	}
 
 	/**
@@ -471,5 +525,119 @@ public final class Model {
 				System.out.println("\n-------------------------------------------------------------\n");
 			}
 		}
+	}
+
+	private static void loadModelData() {
+		ArrayList<Video> list = new ArrayList<Video>();
+
+		try {
+			FileReader fr = new FileReader("src/main/java/vipir/resources/moviedata.txt");
+			BufferedReader reader = new BufferedReader(fr);
+
+			// Build Action Videos
+			String line = reader.readLine();
+			StringTokenizer st = new StringTokenizer(line, ",");
+			while (st.hasMoreTokens()) {
+				list.add(new Video(st.nextToken(), st.nextToken(), st.nextToken()));
+				st.nextToken();
+			}
+			action = list;
+			list = new ArrayList<Video>();
+
+			// Build Action Videos
+			line = reader.readLine();
+			st = new StringTokenizer(line, ",");
+			while (st.hasMoreTokens()) {
+				list.add(new Video(st.nextToken(), st.nextToken(), st.nextToken()));
+				st.nextToken();
+			}
+			comedy = list;
+			list = new ArrayList<Video>();
+
+			// Build Action Videos
+			line = reader.readLine();
+			st = new StringTokenizer(line, ",");
+			while (st.hasMoreTokens()) {
+				list.add(new Video(st.nextToken(), st.nextToken(), st.nextToken()));
+				st.nextToken();
+			}
+			romance = list;
+			list = new ArrayList<Video>();
+
+			// Build Action Videos
+			line = reader.readLine();
+			st = new StringTokenizer(line, ",");
+			while (st.hasMoreTokens()) {
+				list.add(new Video(st.nextToken(), st.nextToken(), st.nextToken()));
+				st.nextToken();
+			}
+			horror = list;
+			list = new ArrayList<Video>();
+
+			// Build Action Videos
+			line = reader.readLine();
+			st = new StringTokenizer(line, ",");
+			while (st.hasMoreTokens()) {
+				list.add(new Video(st.nextToken(), st.nextToken(), st.nextToken()));
+				st.nextToken();
+			}
+			drama = list;
+			list = new ArrayList<Video>();
+
+			// Build Action Videos
+			line = reader.readLine();
+			st = new StringTokenizer(line, ",");
+			while (st.hasMoreTokens()) {
+				list.add(new Video(st.nextToken(), st.nextToken(), st.nextToken()));
+				st.nextToken();
+			}
+			fantasy = list;
+			list = new ArrayList<Video>();
+
+			// Build Action Videos
+			line = reader.readLine();
+			st = new StringTokenizer(line, ",");
+			while (st.hasMoreTokens()) {
+				list.add(new Video(st.nextToken(), st.nextToken(), st.nextToken()));
+				st.nextToken();
+			}
+			scifi = list;
+			list = new ArrayList<Video>();
+
+			// Build Action Videos
+			line = reader.readLine();
+			st = new StringTokenizer(line, ",");
+			while (st.hasMoreTokens()) {
+				list.add(new Video(st.nextToken(), st.nextToken(), st.nextToken()));
+				st.nextToken();
+			}
+			documentary = list;
+			list = new ArrayList<Video>();
+
+			// Build Action Videos
+			line = reader.readLine();
+			st = new StringTokenizer(line, ",");
+			while (st.hasMoreTokens()) {
+				list.add(new Video(st.nextToken(), st.nextToken(), st.nextToken()));
+				st.nextToken();
+			}
+			games = list;
+			list = new ArrayList<Video>();
+
+			// Build Action Videos
+			line = reader.readLine();
+			st = new StringTokenizer(line, ",");
+			while (st.hasMoreTokens()) {
+				list.add(new Video(st.nextToken(), st.nextToken(), st.nextToken()));
+				st.nextToken();
+			}
+			anime = list;
+			list = new ArrayList<Video>();
+
+			reader.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
 	}
 }
