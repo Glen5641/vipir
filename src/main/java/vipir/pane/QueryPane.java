@@ -15,6 +15,7 @@
 
 package vipir.pane;
 
+import java.util.ArrayList;
 //import java.lang.*;
 import java.util.List;
 import javafx.beans.property.SimpleStringProperty;
@@ -38,6 +39,7 @@ import javafx.scene.web.WebView;
 import javafx.util.Callback;
 import vipir.Controller;
 import vipir.Model;
+import vipir.Video;
 import vipir.View;
 
 //******************************************************************************
@@ -367,12 +369,12 @@ public final class QueryPane extends AbstractPane {
 	
 	private VBox buildMoviesBox()
 	{
-		List<Video> data = Model.getAction();
+		ArrayList<Video> data = model.getAction();
 
 		Group all = new Group();	
 		for(int i = 0; i < 3; i++) 
 		{
-			for (List<String> item : data)
+			for (Video item : data)
 			{
 				ImageView	icon = createFXIcon(item.get(1), W, H);
 				Label		label = new Label(item.get(0), icon);
