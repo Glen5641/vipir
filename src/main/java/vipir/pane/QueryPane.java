@@ -23,16 +23,21 @@ import javafx.collections.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.*;
+import javafx.scene.Cursor;
+import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.web.WebView;
 import javafx.util.Callback;
 import vipir.Controller;
+import vipir.Model;
 import vipir.View;
 
 //******************************************************************************
@@ -222,7 +227,10 @@ public final class QueryPane extends AbstractPane {
 			}
 		};
 		b.setOnAction(event);
-		queryPane = new BorderPane(b, null, null, null, title);
+		
+		VBox movies = buildMoviesBox();
+		
+		queryPane = new BorderPane(b, movies, null, null, title);
 
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -355,6 +363,110 @@ public final class QueryPane extends AbstractPane {
 			setText(null);
 			setGraphic(icon);
 		}
+	}
+	
+	private VBox buildMoviesBox()
+	{
+		List<Video> data = Model.getAction();
+
+		Group all = new Group();	
+		for(int i = 0; i < 3; i++) 
+		{
+			for (List<String> item : data)
+			{
+				ImageView	icon = createFXIcon(item.get(1), W, H);
+				Label		label = new Label(item.get(0), icon);
+	
+				label.setTextFill(Color.BLACK);
+				label.setContentDisplay(ContentDisplay.TOP);
+				label.setPrefWidth(W);
+	
+				label.setCursor(Cursor.HAND);
+				label.setPadding(new Insets(0, W * 0.1, 0, W * 0.1));
+	
+				// Add a rounded rectangular border around each item
+				Rectangle	shape = new Rectangle(W + 4.0, H + 24.0);
+	
+				shape.setArcWidth(4.0);
+				shape.setArcHeight(4.0);
+	
+				shape.setFill(Color.BLACK);
+	
+				shape.setStroke(Color.BLACK);
+				shape.setStrokeType(StrokeType.OUTSIDE);
+				shape.setStrokeWidth(2.0);
+	
+				// Put the border and label together, and add it to the set of items
+				StackPane one = new StackPane(shape, label);
+	
+				all.getChildren().add(one);
+			}
+		}
+
+		HBox imageBox = new HBox();
+		imageBox.setSpacing(10);
+		imageBox.getChildren().addAll(all.getChildren());
+		final ScrollPane scrollPane = new ScrollPane();
+		scrollPane.setContent(imageBox);
+		scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+		scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+		scrollPane.setHvalue(0);
+		
+		StackPane stackPane = new StackPane();
+		stackPane.getChildren().addAll(scrollPane, scrollButtons(scrollPane));
+		stackPane.setStyle("-fx-background-color: Gray; -fx-border-color: Cyan;");
+		//stackPane.setPadding(new Insets(W * 0.25, W * 0.25, W * 0.25, W * 0.1));
+		VBox movies = new VBox();
+		Label category = new Label("Category Here");
+		movies.getChildren().addAll(category, stackPane);
+		movies.setAlignment(Pos.CENTER_LEFT);
+		movies.setSpacing(10);
+		VBox.setMargin(category, new Insets(10, 10, 10, 10));
+		VBox.setMargin(stackPane, new Insets(10, 10, 10, 10));
+		movies.setStyle("-fx-background-color: Black; -fx-border-color: Red;");
+
+		return movies;
+	}
+	
+	private AnchorPane scrollButtons(final ScrollPane scrollPane)
+	{
+		double scrollSpeed = 1/(double)(data.size()*3);
+		Button rightArrow = new Button();
+		rightArrow.setGraphic(createFXIcon("arrowright.png", W, H));
+		rightArrow.setOnAction(new EventHandler<ActionEvent>() {
+			
+				@Override
+				public void handle(ActionEvent arg0) {
+					System.out.println(scrollPane.getHvalue());
+					if(scrollPane.getHvalue() >= 0.98)
+					{
+						scrollPane.setHvalue(scrollPane.getHvalue() - (scrollSpeed*((data.size()*1.25)-1)));
+					}
+					scrollPane.setHvalue(scrollPane.getHvalue() + scrollSpeed);
+
+				}
+		});
+		
+		Button leftArrow = new Button();
+		leftArrow.setGraphic(createFXIcon("arrowleft.png", W, H));
+		leftArrow.setOnAction(new EventHandler<ActionEvent>() {
+			
+				@Override
+				public void handle(ActionEvent arg0) {
+					if(scrollPane.getHvalue() <= 0.02)
+					{
+						scrollPane.setHvalue(scrollPane.getHvalue() + (scrollSpeed*((data.size()*1.25)-1)));
+					}
+					scrollPane.setHvalue(scrollPane.getHvalue() - scrollSpeed);
+				}
+		});
+		
+		AnchorPane anchorPane = new AnchorPane();
+		AnchorPane.setLeftAnchor(leftArrow, 1.0);
+		AnchorPane.setRightAnchor(rightArrow, 1.0);
+		anchorPane.getChildren().addAll(leftArrow, rightArrow);
+		return anchorPane;
+		
 	}
 }
 
