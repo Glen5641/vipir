@@ -28,6 +28,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -376,18 +377,18 @@ public final class QueryPane extends AbstractPane {
 		{
 			for (Video item : data)
 			{
-				ImageView	icon = createFXIcon(item.get(1), W, H);
-				Label		label = new Label(item.get(0), icon);
+				ImageView	icon = new ImageView(new Image(item.getPicUrl(), 100, 80, false, true));
+				Label		label = new Label(item.getTitle(), icon);
 	
-				label.setTextFill(Color.BLACK);
+				label.setTextFill(Color.WHITE);
 				label.setContentDisplay(ContentDisplay.TOP);
-				label.setPrefWidth(W);
+				label.setPrefWidth(100);
 	
 				label.setCursor(Cursor.HAND);
 				label.setPadding(new Insets(0, W * 0.1, 0, W * 0.1));
 	
 				// Add a rounded rectangular border around each item
-				Rectangle	shape = new Rectangle(W + 4.0, H + 24.0);
+				Rectangle	shape = new Rectangle(100 + 4.0, 80 + 24.0);
 	
 				shape.setArcWidth(4.0);
 				shape.setArcHeight(4.0);
@@ -412,14 +413,15 @@ public final class QueryPane extends AbstractPane {
 		scrollPane.setContent(imageBox);
 		scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 		scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-		scrollPane.setHvalue(0);
+		scrollPane.setHvalue(0.5);
 		
 		StackPane stackPane = new StackPane();
-		stackPane.getChildren().addAll(scrollPane, scrollButtons(scrollPane));
+		stackPane.getChildren().addAll(scrollPane, scrollButtons(scrollPane, data.size()));
 		stackPane.setStyle("-fx-background-color: Gray; -fx-border-color: Cyan;");
 		//stackPane.setPadding(new Insets(W * 0.25, W * 0.25, W * 0.25, W * 0.1));
 		VBox movies = new VBox();
-		Label category = new Label("Category Here");
+		Label category = new Label("Action");
+		category.setTextFill(Color.WHITE);
 		movies.getChildren().addAll(category, stackPane);
 		movies.setAlignment(Pos.CENTER_LEFT);
 		movies.setSpacing(10);
@@ -430,9 +432,9 @@ public final class QueryPane extends AbstractPane {
 		return movies;
 	}
 	
-	private AnchorPane scrollButtons(final ScrollPane scrollPane)
+	private AnchorPane scrollButtons(final ScrollPane scrollPane,int dataSize)
 	{
-		double scrollSpeed = 1/(double)(data.size()*3);
+		double scrollSpeed = 1/(double)(dataSize*3);
 		Button rightArrow = new Button();
 		rightArrow.setGraphic(createFXIcon("arrowright.png", W, H));
 		rightArrow.setOnAction(new EventHandler<ActionEvent>() {
@@ -442,7 +444,7 @@ public final class QueryPane extends AbstractPane {
 					System.out.println(scrollPane.getHvalue());
 					if(scrollPane.getHvalue() >= 0.98)
 					{
-						scrollPane.setHvalue(scrollPane.getHvalue() - (scrollSpeed*((data.size()*1.25)-1)));
+						scrollPane.setHvalue(scrollPane.getHvalue() - (scrollSpeed*((dataSize*1.25-1))));
 					}
 					scrollPane.setHvalue(scrollPane.getHvalue() + scrollSpeed);
 
@@ -457,7 +459,7 @@ public final class QueryPane extends AbstractPane {
 				public void handle(ActionEvent arg0) {
 					if(scrollPane.getHvalue() <= 0.02)
 					{
-						scrollPane.setHvalue(scrollPane.getHvalue() + (scrollSpeed*((data.size()*1.25)-1)));
+						scrollPane.setHvalue(scrollPane.getHvalue() + (scrollSpeed*((dataSize*1.25))));
 					}
 					scrollPane.setHvalue(scrollPane.getHvalue() - scrollSpeed);
 				}
