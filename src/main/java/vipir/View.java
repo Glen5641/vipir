@@ -4,6 +4,7 @@ package vipir;
 import java.util.ArrayList;
 import java.net.URL;
 import javafx.event.EventHandler;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
 import javafx.stage.*;
@@ -47,11 +48,15 @@ public final class View {
 
 		Stage stage = new Stage();
 
+		Screen screen = Screen.getPrimary();
+		Rectangle2D bounds = screen.getVisualBounds();
 		stage.setOnHiding(windowHandler);
 		stage.setScene(scene);
 		stage.setTitle(name);
-		stage.setX(x);
-		stage.setY(y);
+		stage.setX(bounds.getMinX());
+		stage.setY(bounds.getMinY());
+		stage.setWidth(bounds.getWidth() - 400);
+		stage.setHeight(bounds.getHeight());
 		stage.show();
 	}
 

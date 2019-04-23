@@ -15,7 +15,6 @@
 package vipir.pane;
 
 //import java.lang.*;
-import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.scene.web.WebView;
 import vipir.Controller;
@@ -42,7 +41,7 @@ public final class WebPane extends AbstractPane
 	//**********************************************************************
 
 	private static final String	URL =
-		"https://www.imdb.com/title/tt0241527/";
+		"https://www.youtube.com/watch?v=Mfmtra55s-U,_DIU2PvHs5U";
 
 	//**********************************************************************
 	// Private Members
@@ -94,7 +93,7 @@ public final class WebPane extends AbstractPane
 	private Pane	buildPane()
 	{
 		webView = new WebView();
-
+		webView.setZoom(100.0);
 		base = new StackPane(webView);
 
 		return base;

@@ -15,11 +15,16 @@
 
 package vipir.pane;
 
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 //import java.lang.*;
 import java.util.List;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.*;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -28,17 +33,19 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.web.WebView;
 import javafx.util.Callback;
 import vipir.Controller;
+import vipir.View;
 
 //******************************************************************************
 
 /**
-* The <CODE>TablePane</CODE> class.
-*
-* @author Chris Weaver
-* @version %I%, %G%
-*/
+ * The <CODE>TablePane</CODE> class.
+ *
+ * @author Chris Weaver
+ * @version %I%, %G%
+ */
 public final class QueryPane extends AbstractPane {
 	// **********************************************************************
 	// Private Class Members
@@ -69,8 +76,14 @@ public final class QueryPane extends AbstractPane {
 
 	// Layout
 	private BorderPane base;
+	private StackPane lay;
 	private TableView<Record> table;
 	private SelectionModel<Record> smodel;
+
+	private BorderPane queryPane;
+	private BorderPane viewPane;
+
+	private WebView webView;
 
 	// **********************************************************************
 	// Constructors and Finalizer
@@ -89,27 +102,27 @@ public final class QueryPane extends AbstractPane {
 	// The controller calls this method when it adds a view.
 	// Set up the nodes in the view with data accessed through the controller.
 	public void initialize() {
-		smodel.selectedIndexProperty().addListener(this::changeIndex);
+		// smodel.selectedIndexProperty().addListener(this::changeIndex);
 
-		int index = (Integer) controller.get("itemIndex");
+		// int index = (Integer) controller.get("itemIndex");
 
-		smodel.select(index);
+		// smodel.select(index);
 	}
 
 	// The controller calls this method when it removes a view.
 	// Unregister event and property listeners for the nodes in the view.
 	public void terminate() {
-		smodel.selectedIndexProperty().removeListener(this::changeIndex);
+		// smodel.selectedIndexProperty().removeListener(this::changeIndex);
 	}
 
 	// The controller calls this method whenever something changes in the model.
 	// Update the nodes in the view to reflect the change.
 	public void update(String key, Object value) {
-		if ("itemIndex".equals(key)) {
-			int index = (Integer) value;
+		// if ("itemIndex".equals(key)) {
+		// int index = (Integer) value;
 
-			smodel.select(index);
-		}
+		// smodel.select(index);
+		// }
 	}
 
 	// **********************************************************************
@@ -117,80 +130,124 @@ public final class QueryPane extends AbstractPane {
 	// **********************************************************************
 
 	private Pane buildPane() {
-		/*data = loadFXData("list-movies.txt");
-
-		// Transfer the data into an ObservableList to use as the table model
-		ObservableList<Record> records = FXCollections.observableArrayList();
-
-		for (List<String> item : data)
-			records.add(new Record(item.get(0), item.get(1)));
-
-		// Create a column for movie titles
-		TableColumn<Record, String> nameColumn = new TableColumn<Record, String>("Title");
-
-		nameColumn.setEditable(false);
-		nameColumn.setPrefWidth(250);
-		nameColumn.setCellValueFactory(new PropertyValueFactory<Record, String>("name"));
-		nameColumn.setCellFactory(new NameCellFactory());
-
-		// Create a column for movie posters
-		TableColumn<Record, String> iconColumn = new TableColumn<Record, String>("Poster");
-
-		iconColumn.setEditable(false);
-		iconColumn.setPrefWidth(W + 16.0);
-		iconColumn.setCellValueFactory(new PropertyValueFactory<Record, String>("icon"));
-		iconColumn.setCellFactory(new IconCellFactory());
-
-		// Create the table from the columns
-		table = new TableView<Record>();
-		smodel = table.getSelectionModel();
-
-		table.setEditable(false);
-		table.setPlaceholder(new Text("No Data!"));
-		// table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-
-		table.getColumns().add(nameColumn);
-		table.getColumns().add(iconColumn);
-
-		table.setItems(records);
-
-		// Create a split pane to share space between the cover pane and table
-		SplitPane splitPane = new SplitPane();
-
-		splitPane.setOrientation(Orientation.VERTICAL);
-		splitPane.setDividerPosition(0, 0.1); // Put divider at 50% T-to-B
-
-		Label tlabel = new Label("this space intentionally left blank");
-		Label llabel = new Label("put accordion here");
-		Label rlabel = new Label("put movieinfo here");
-
-		tlabel.setPadding(PADDING);
-		llabel.setPadding(PADDING);
-		rlabel.setPadding(PADDING);
-
-		splitPane.getItems().add(tlabel);
-		splitPane.getItems().add(table);
-
-		StackPane lpane = new StackPane(llabel);
-		StackPane rpane = new StackPane(rlabel);
-
-		// base = new BorderPane(table, null, rpane, null, lpane);
-		base = new BorderPane(splitPane, null, rpane, null, lpane);
-*/
-		base = new BorderPane(null, buildTitle(), null, null, null);
-
+		/*
+		 * data = loadFXData("list-movies.txt");
+		 * 
+		 * // Transfer the data into an ObservableList to use as the table model
+		 * ObservableList<Record> records = FXCollections.observableArrayList();
+		 * 
+		 * for (List<String> item : data) records.add(new Record(item.get(0),
+		 * item.get(1)));
+		 * 
+		 * // Create a column for movie titles TableColumn<Record, String> nameColumn =
+		 * new TableColumn<Record, String>("Title");
+		 * 
+		 * nameColumn.setEditable(false); nameColumn.setPrefWidth(250);
+		 * nameColumn.setCellValueFactory(new PropertyValueFactory<Record,
+		 * String>("name")); nameColumn.setCellFactory(new NameCellFactory());
+		 * 
+		 * // Create a column for movie posters TableColumn<Record, String> iconColumn =
+		 * new TableColumn<Record, String>("Poster");
+		 * 
+		 * iconColumn.setEditable(false); iconColumn.setPrefWidth(W + 16.0);
+		 * iconColumn.setCellValueFactory(new PropertyValueFactory<Record,
+		 * String>("icon")); iconColumn.setCellFactory(new IconCellFactory());
+		 * 
+		 * // Create the table from the columns table = new TableView<Record>(); smodel
+		 * = table.getSelectionModel();
+		 * 
+		 * table.setEditable(false); table.setPlaceholder(new Text("No Data!")); //
+		 * table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		 * 
+		 * table.getColumns().add(nameColumn); table.getColumns().add(iconColumn);
+		 * 
+		 * table.setItems(records);
+		 * 
+		 * // Create a split pane to share space between the cover pane and table
+		 * SplitPane splitPane = new SplitPane();
+		 * 
+		 * splitPane.setOrientation(Orientation.VERTICAL);
+		 * splitPane.setDividerPosition(0, 0.1); // Put divider at 50% T-to-B
+		 * 
+		 * Label tlabel = new Label("this space intentionally left blank"); Label llabel
+		 * = new Label("put accordion here"); Label rlabel = new
+		 * Label("put movieinfo here");
+		 * 
+		 * tlabel.setPadding(PADDING); llabel.setPadding(PADDING);
+		 * rlabel.setPadding(PADDING);
+		 * 
+		 * splitPane.getItems().add(tlabel); splitPane.getItems().add(table);
+		 * 
+		 * StackPane lpane = new StackPane(llabel); StackPane rpane = new
+		 * StackPane(rlabel);
+		 * 
+		 * // base = new BorderPane(table, null, rpane, null, lpane); base = new
+		 * BorderPane(splitPane, null, rpane, null, lpane);
+		 */
+		buildTitle();
+		buildVidView();
+		lay = new StackPane(queryPane, viewPane);
+		StackPane.setAlignment(queryPane, Pos.CENTER);
+		StackPane.setAlignment(viewPane, Pos.CENTER);
+		base = new BorderPane(null, lay, null, null, null);
+		viewPane.prefWidthProperty().bind(base.widthProperty());
+		queryPane.prefWidthProperty().bind(base.widthProperty());
+		lay.prefWidthProperty().bind(base.widthProperty());
+		viewPane.prefHeightProperty().bind(base.heightProperty());
+		queryPane.setVisible(true);
+		viewPane.setVisible(false);
 		return base;
 	}
 
-	private Pane buildTitle() {
+	private void buildTitle() {
 		Label title = new Label("Vipir");
 		title.setFont(new Font("Arial", 100));
 		title.setTextFill(Color.TEAL);
 		title.setPadding(new Insets(40.0, 40.0, 40.0, 40.0));
-		BorderPane pane = new BorderPane(null, null, null, null, title);
-		return pane;
+		Button b = new Button("TO VIDEO LAYOUT");
+		// action event
+		EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent e) {
+				setViewURL("https://www.youtube.com/watch?v=Mfmtra55s-U,_DIU2PvHs5U");
+				queryPane.setVisible(false);
+				viewPane.setVisible(true);
+			}
+		};
+		b.setOnAction(event);
+		queryPane = new BorderPane(b, null, null, null, title);
+
 	}
-	
+
+	private void buildVidView() {
+		webView = new WebView();
+		Button b = new Button("Back To HOME LAYOUT");
+		// action event
+		EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent e) {
+				setViewURL(null);
+				viewPane.setVisible(false);
+				queryPane.setVisible(true);
+			}
+		};
+		b.setOnAction(event);
+		VBox box = new VBox(b);
+		viewPane = new BorderPane(webView, box, null, null, null);
+		box.prefWidthProperty().bind(viewPane.widthProperty());
+		box.prefHeightProperty().bind(viewPane.heightProperty().multiply(0.05));
+		box.setAlignment(Pos.TOP_CENTER);
+	}
+
+	public void setViewURL(String url) {
+		webView.getEngine().load(url);
+		webView.getEngine().setUserStyleSheetLocation("file:src/main/java/vipir/webContent.css");
+		webView.setZoom(2.216);
+
+	}
+
+	public void removeViewURL() {
+		webView.getEngine().load(null);
+	}
+
 	// **********************************************************************
 	// Private Methods (Change Handlers)
 	// **********************************************************************
@@ -287,4 +344,3 @@ public final class QueryPane extends AbstractPane {
 }
 
 //******************************************************************************
-
