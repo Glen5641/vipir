@@ -23,12 +23,12 @@ public final class View {
 	private final WindowHandler windowHandler;
 	private final ArrayList<AbstractPane> panes;
 
-	public View(Controller controller, String name, double x, double y) {
+	public View(Controller controller, Model model, String name, double x, double y) {
 		this.controller = controller;
 		windowHandler = new WindowHandler();
 		panes = new ArrayList<AbstractPane>();
-		panes.add(new TablePane(controller));
-		panes.add(new QueryPane(controller));
+		panes.add(new TablePane(controller, model));
+		panes.add(new QueryPane(controller, model));
 		//panes.add(new CyclePane(controller));
 		//panes.add(new FloatPane(controller));
 		//panes.add(new ImagePane(controller));

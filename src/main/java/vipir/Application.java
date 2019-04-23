@@ -93,7 +93,7 @@ public final class Application extends javafx.application.Application {
 		}
 
 		public void handle(ActionEvent e) {
-			View view1 = new View(controller, "View 1", 40, 40);
+			View view1 = new View(controller, model, "View 1", 40, 40);
 			controller.addView(view1);
 			stage.hide();
 		}

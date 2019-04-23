@@ -28,6 +28,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 import vipir.Controller;
+import vipir.Model;
 
 //******************************************************************************
 
@@ -74,8 +75,8 @@ public final class TablePane extends AbstractPane {
 	// Constructors and Finalizer
 	// **********************************************************************
 
-	public TablePane(Controller controller) {
-		super(controller, NAME, HINT);
+	public TablePane(Controller controller, Model model) {
+		super(controller, model, NAME, HINT);
 
 		setBase(buildPane());
 	}

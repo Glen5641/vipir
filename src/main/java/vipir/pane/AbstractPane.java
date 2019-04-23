@@ -21,6 +21,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.paint.Color;
 import vipir.Controller;
+import vipir.Model;
 import vipir.resources.Resources;
 import javafx.scene.layout.*;
 
@@ -50,6 +51,7 @@ public abstract class AbstractPane {
 
 	// Master of the program, manager of the data, mediator of all updates
 	protected final Controller controller;
+	protected Model model;
 	protected final String name;
 	protected final String hint;
 
@@ -60,7 +62,8 @@ public abstract class AbstractPane {
 	// Constructors and Finalizer
 	// **********************************************************************
 
-	protected AbstractPane(Controller controller, String name, String hint) {
+	protected AbstractPane(Controller controller, Model model, String name, String hint) {
+		this.model = model;
 		this.controller = controller;
 		this.name = name;
 		this.hint = hint;

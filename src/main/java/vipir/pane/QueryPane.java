@@ -33,6 +33,7 @@ import javafx.scene.text.Text;
 import javafx.scene.web.WebView;
 import javafx.util.Callback;
 import vipir.Controller;
+import vipir.Model;
 import vipir.View;
 
 //******************************************************************************
@@ -86,8 +87,8 @@ public final class QueryPane extends AbstractPane {
 	// Constructors and Finalizer
 	// **********************************************************************
 
-	public QueryPane(Controller controller) {
-		super(controller, NAME, HINT);
+	public QueryPane(Controller controller, Model model) {
+		super(controller, model, NAME, HINT);
 
 		setBase(buildPane());
 	}
