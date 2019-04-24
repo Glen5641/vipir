@@ -236,6 +236,7 @@ public final class QueryPane extends AbstractPane {
 		movieCategories.getChildren().addAll(buildMoviesBox("Action"), buildMoviesBox("Comedy"));
 		
 		queryPane = new BorderPane(b, movieCategories, null, null, title);
+		queryPane.setStyle("-fx-background-color: rgb(33,33,33);");
 
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -373,18 +374,21 @@ public final class QueryPane extends AbstractPane {
 	private VBox buildMoviesBox(String movieType)
 	{
 		ArrayList<Video> data = getMovieType(movieType);
+		int width = 150;
+		int height = 120;
 
 		Group all = new Group();	
 		for(int i = 0; i < 3; i++) 
 		{
 			for (Video item : data)
 			{
-				ImageView	icon = new ImageView(new Image(item.getPicUrl(), 100, 80, false, true));
+				ImageView	icon = new ImageView(new Image(item.getPicUrl(), width, height, false, true));
 				Label		label = new Label(item.getTitle(), icon);
 	
 				label.setTextFill(Color.WHITE);
 				label.setContentDisplay(ContentDisplay.TOP);
 				label.setPrefWidth(100);
+				label.setStyle("-fx-background-color: rgb(33,33,33);");
 	
 				label.setPadding(new Insets(0, W * 0.1, 0, W * 0.1));
 				label.addEventHandler(MouseEvent.MOUSE_CLICKED,
@@ -398,7 +402,7 @@ public final class QueryPane extends AbstractPane {
 				});
 				
 				// Add a rounded rectangular border around each item
-				Rectangle	shape = new Rectangle(100 + 4.0, 80 + 24.0);
+				Rectangle	shape = new Rectangle(width + 4.0, height + 24.0);
 	
 				shape.setArcWidth(4.0);
 				shape.setArcHeight(4.0);
@@ -408,9 +412,11 @@ public final class QueryPane extends AbstractPane {
 				shape.setStroke(Color.BLACK);
 				shape.setStrokeType(StrokeType.OUTSIDE);
 				shape.setStrokeWidth(2.0);
+				shape.setStyle("-fx-background-color: rgb(33,33,33);");
 	
 				// Put the border and label together, and add it to the set of items
 				StackPane one = new StackPane(shape, label);
+				one.setStyle("-fx-background-color: rgb(33,33,33);");
 	
 				all.getChildren().add(one);
 			}
@@ -419,38 +425,42 @@ public final class QueryPane extends AbstractPane {
 		HBox imageBox = new HBox();
 		imageBox.setSpacing(10);
 		imageBox.getChildren().addAll(all.getChildren());
+		imageBox.setStyle("-fx-background-color: rgb(33,33,33);");
 
 		final ScrollPane scrollPane = new ScrollPane();
 		scrollPane.setContent(imageBox);
 		scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 		scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 		scrollPane.setHvalue(0.5);
+		scrollPane.setStyle("-fx-background-color: rgb(33,33,33);");
 
 		StackPane stackPane = new StackPane();
 		AnchorPane anchorButtons = scrollButtons(scrollPane, data.size());
 
 		anchorButtons.setPickOnBounds(false);
 		stackPane.getChildren().addAll(scrollPane, anchorButtons);
-		stackPane.setStyle("-fx-background-color: Gray; -fx-border-color: Cyan;");
+		stackPane.setStyle("-fx-background-color: rgb(33,33,33);");
 		stackPane.setPickOnBounds(true);
+		stackPane.setPadding(new Insets(10, 10, 10, 10));
 
 		//stackPane.setPadding(new Insets(W * 0.25, W * 0.25, W * 0.25, W * 0.1));
 		VBox movies = new VBox();
 		Label category = new Label(movieType);
-		category.setTextFill(Color.WHITE);
+		category.setTextFill(Color.TEAL);
+		category.setFont(new Font("Arial", 24));
 		movies.getChildren().addAll(category, stackPane);
 		movies.setAlignment(Pos.CENTER_LEFT);
 		movies.setSpacing(10);
-		VBox.setMargin(category, new Insets(10, 10, 10, 10));
-		VBox.setMargin(stackPane, new Insets(10, 10, 10, 10));
-		movies.setStyle("-fx-background-color: rgb(33,33,33);");
+		movies.setStyle("-fx-background-color: rgb(33,33,33); -fx-border-color: TEAL;");
+		movies.setPadding(new Insets(10, 10, 10, 10));
+		VBox.setMargin(movies, new Insets(10, 10, 10, 10));
 
 		return movies;
 	}
 	
 	private AnchorPane scrollButtons(final ScrollPane scrollPane,int dataSize)
 	{
-		double scrollSpeed = 1/(double)(dataSize*3);
+		double scrollSpeed = 1.15/(double)(dataSize*3);
 		Button rightArrow = new Button();
 		rightArrow.setGraphic(createFXIcon("arrowright.png", W, H));
 		rightArrow.setStyle("-fx-focus-color: transparent; -fx-background-color: transparent;");
@@ -461,7 +471,7 @@ public final class QueryPane extends AbstractPane {
 					System.out.println(scrollPane.getHvalue());
 					if(scrollPane.getHvalue() >= 0.98)
 					{
-						scrollPane.setHvalue(scrollPane.getHvalue() - (scrollSpeed*((dataSize*1.25-1))));
+						scrollPane.setHvalue(scrollPane.getHvalue() - (scrollSpeed*((dataSize-1))));
 					}
 					scrollPane.setHvalue(scrollPane.getHvalue() + scrollSpeed);
 
@@ -477,7 +487,7 @@ public final class QueryPane extends AbstractPane {
 				public void handle(ActionEvent arg0) {
 					if(scrollPane.getHvalue() <= 0.02)
 					{
-						scrollPane.setHvalue(scrollPane.getHvalue() + (scrollSpeed*((dataSize*1.25-1))));
+						scrollPane.setHvalue(scrollPane.getHvalue() + (scrollSpeed*((dataSize-1))));
 					}
 					scrollPane.setHvalue(scrollPane.getHvalue() - scrollSpeed);
 				}
