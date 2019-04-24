@@ -233,8 +233,7 @@ public final class QueryPane extends AbstractPane {
 		b.setOnAction(event);
 		
 		VBox movieCategories = new VBox();
-		movieCategories.getChildren().addAll(buildMoviesBox("Action"), 
-				buildMoviesBox("Anime"), buildMoviesBox("Comedy"));
+		movieCategories.getChildren().addAll(buildMoviesBox("Action"), buildMoviesBox("Comedy"));
 		
 		queryPane = new BorderPane(b, movieCategories, null, null, title);
 
@@ -444,7 +443,7 @@ public final class QueryPane extends AbstractPane {
 		movies.setSpacing(10);
 		VBox.setMargin(category, new Insets(10, 10, 10, 10));
 		VBox.setMargin(stackPane, new Insets(10, 10, 10, 10));
-		movies.setStyle("-fx-background-color: Black; -fx-border-color: Red;");
+		movies.setStyle("-fx-background-color: rgb(33,33,33);");
 
 		return movies;
 	}
@@ -454,6 +453,7 @@ public final class QueryPane extends AbstractPane {
 		double scrollSpeed = 1/(double)(dataSize*3);
 		Button rightArrow = new Button();
 		rightArrow.setGraphic(createFXIcon("arrowright.png", W, H));
+		rightArrow.setStyle("-fx-focus-color: transparent; -fx-background-color: transparent;");
 		rightArrow.setOnAction(new EventHandler<ActionEvent>() {
 			
 				@Override
@@ -470,13 +470,14 @@ public final class QueryPane extends AbstractPane {
 		
 		Button leftArrow = new Button();
 		leftArrow.setGraphic(createFXIcon("arrowleft.png", W, H));
+		leftArrow.setStyle("-fx-focus-color: transparent; -fx-background-color: transparent;");
 		leftArrow.setOnAction(new EventHandler<ActionEvent>() {
 			
 				@Override
 				public void handle(ActionEvent arg0) {
 					if(scrollPane.getHvalue() <= 0.02)
 					{
-						scrollPane.setHvalue(scrollPane.getHvalue() + (scrollSpeed*((dataSize*1.25))));
+						scrollPane.setHvalue(scrollPane.getHvalue() + (scrollSpeed*((dataSize*1.25-1))));
 					}
 					scrollPane.setHvalue(scrollPane.getHvalue() - scrollSpeed);
 				}
