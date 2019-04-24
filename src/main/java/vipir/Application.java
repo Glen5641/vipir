@@ -14,7 +14,7 @@ import javafx.util.Duration;
 /**
  * The <CODE>Application</CODE> class.
  *
- * @author Chris Weaver
+ * @author John Weaver
  * @version %I%, %G%
  */
 public final class Application extends javafx.application.Application {
