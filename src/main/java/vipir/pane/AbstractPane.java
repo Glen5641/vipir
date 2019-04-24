@@ -73,6 +73,12 @@ public abstract class AbstractPane {
 	// Getters and Setters
 	// **********************************************************************
 
+	public AbstractPane(Controller controller2, String name2, String hint2) {
+		this.controller = controller2;
+		this.name = name2;
+		this.hint = hint2;
+	}
+
 	public String getName() {
 		return name;
 	}

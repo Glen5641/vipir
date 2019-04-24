@@ -235,7 +235,8 @@ public final class QueryPane extends AbstractPane {
 		VBox movieCategories = new VBox();
 		movieCategories.getChildren().addAll(buildMoviesBox("Action"), buildMoviesBox("Comedy"));
 		
-		queryPane = new BorderPane(b, movieCategories, null, null, title);
+		queryPane = new BorderPane(movieCategories, title, null, b, null);
+		BorderPane.setAlignment(b, Pos.TOP_CENTER);
 		queryPane.setStyle("-fx-background-color: rgb(33,33,33);");
 
 	}
