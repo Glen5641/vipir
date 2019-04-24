@@ -30,6 +30,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -384,9 +385,17 @@ public final class QueryPane extends AbstractPane {
 				label.setContentDisplay(ContentDisplay.TOP);
 				label.setPrefWidth(100);
 	
-				label.setCursor(Cursor.HAND);
 				label.setPadding(new Insets(0, W * 0.1, 0, W * 0.1));
-	
+				label.addEventHandler(MouseEvent.MOUSE_CLICKED,
+						new EventHandler<MouseEvent>() {
+						    @Override
+						    public void handle(MouseEvent event) {
+								setViewURL(item.getVideoUrl());
+								queryPane.setVisible(false);
+								viewPane.setVisible(true);
+						    }
+				});
+				
 				// Add a rounded rectangular border around each item
 				Rectangle	shape = new Rectangle(100 + 4.0, 80 + 24.0);
 	
@@ -409,15 +418,21 @@ public final class QueryPane extends AbstractPane {
 		HBox imageBox = new HBox();
 		imageBox.setSpacing(10);
 		imageBox.getChildren().addAll(all.getChildren());
+
 		final ScrollPane scrollPane = new ScrollPane();
 		scrollPane.setContent(imageBox);
 		scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 		scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 		scrollPane.setHvalue(0.5);
-		
+
 		StackPane stackPane = new StackPane();
-		stackPane.getChildren().addAll(scrollPane, scrollButtons(scrollPane, data.size()));
+		AnchorPane anchorButtons = scrollButtons(scrollPane, data.size());
+
+		anchorButtons.setPickOnBounds(false);
+		stackPane.getChildren().addAll(scrollPane, anchorButtons);
 		stackPane.setStyle("-fx-background-color: Gray; -fx-border-color: Cyan;");
+		stackPane.setPickOnBounds(true);
+
 		//stackPane.setPadding(new Insets(W * 0.25, W * 0.25, W * 0.25, W * 0.1));
 		VBox movies = new VBox();
 		Label category = new Label("Action");
