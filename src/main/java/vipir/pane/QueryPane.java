@@ -232,9 +232,11 @@ public final class QueryPane extends AbstractPane {
 		};
 		b.setOnAction(event);
 		
-		VBox movies = buildMoviesBox();
+		VBox movieCategories = new VBox();
+		movieCategories.getChildren().addAll(buildMoviesBox("Action"), 
+				buildMoviesBox("Anime"), buildMoviesBox("Comedy"));
 		
-		queryPane = new BorderPane(b, movies, null, null, title);
+		queryPane = new BorderPane(b, movieCategories, null, null, title);
 
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -369,9 +371,9 @@ public final class QueryPane extends AbstractPane {
 		}
 	}
 	
-	private VBox buildMoviesBox()
+	private VBox buildMoviesBox(String movieType)
 	{
-		ArrayList<Video> data = model.getAction();
+		ArrayList<Video> data = getMovieType(movieType);
 
 		Group all = new Group();	
 		for(int i = 0; i < 3; i++) 
@@ -435,7 +437,7 @@ public final class QueryPane extends AbstractPane {
 
 		//stackPane.setPadding(new Insets(W * 0.25, W * 0.25, W * 0.25, W * 0.1));
 		VBox movies = new VBox();
-		Label category = new Label("Action");
+		Label category = new Label(movieType);
 		category.setTextFill(Color.WHITE);
 		movies.getChildren().addAll(category, stackPane);
 		movies.setAlignment(Pos.CENTER_LEFT);
@@ -486,6 +488,32 @@ public final class QueryPane extends AbstractPane {
 		anchorPane.getChildren().addAll(leftArrow, rightArrow);
 		return anchorPane;
 		
+	}
+	
+	private ArrayList<Video> getMovieType(String movieType)
+	{
+		if(movieType.equals("Action"))
+			return model.getAction();
+		else if (movieType.equals("Romance"))
+			return model.getRomance();
+		else if (movieType.equals("Anime"))
+			return model.getAnime();
+		else if (movieType.equals("Comedy"))
+			return model.getComedy();
+		else if (movieType.equals("Documentary"))
+			return model.getDocumentary();
+		else if (movieType.equals("Drama"))
+			return model.getDrama();
+		else if (movieType.equals("Fantasy"))
+			return model.getFantasy();
+		else if (movieType.equals("Games"))
+			return model.getGames();
+		else if (movieType.equals("Horror"))
+			return model.getHorror();
+		else if (movieType.equals("Scifi"))
+			return model.getScifi();
+		else
+			return null;
 	}
 }
 
