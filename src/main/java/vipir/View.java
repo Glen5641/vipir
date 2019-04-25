@@ -27,7 +27,6 @@ public final class View {
 		this.controller = controller;
 		windowHandler = new WindowHandler();
 		panes = new ArrayList<AbstractPane>();
-		panes.add(new TablePane(controller, model));
 		panes.add(new QueryPane(controller, model));
 		//panes.add(new CyclePane(controller));
 		//panes.add(new FloatPane(controller));
