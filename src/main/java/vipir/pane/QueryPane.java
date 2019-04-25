@@ -367,17 +367,23 @@ public final class QueryPane extends AbstractPane {
 		}
 	}
 	
+	
+	// Builds a VBox with results from the search term, if it is one of the preset categories from the model we use those instead of searching.
 	private VBox buildMoviesBox(String searchTerm)
 	{
+		//get the data
 		ArrayList<Video> data = getMovieType(searchTerm);
 		int width = 150;
 		int height = 120;
 
+		//Generate the thumbnails and text and add listeners to link to videos
+		//This loops three times for reasons
 		Group all = new Group();	
 		for(int i = 0; i < 3; i++) 
 		{
 			for (Video item : data)
 			{
+				//Image and text
 				ImageView	icon = new ImageView(new Image(item.getPicUrl(), width, height, false, true));
 				Label		label = new Label(item.getTitle(), icon);
 	
@@ -385,8 +391,9 @@ public final class QueryPane extends AbstractPane {
 				label.setContentDisplay(ContentDisplay.TOP);
 				label.setPrefWidth(100);
 				label.setStyle("-fx-background-color: rgb(33,33,33);");
-	
 				label.setPadding(new Insets(0, W * 0.1, 0, W * 0.1));
+				
+				//Adds the click event to open the video
 				label.addEventHandler(MouseEvent.MOUSE_CLICKED,
 						new EventHandler<MouseEvent>() {
 						    @Override
@@ -418,11 +425,13 @@ public final class QueryPane extends AbstractPane {
 			}
 		}
 
+		//Box to store the movie entries
 		HBox imageBox = new HBox();
 		imageBox.setSpacing(10);
 		imageBox.getChildren().addAll(all.getChildren());
 		imageBox.setStyle("-fx-background-color: rgb(33,33,33);");
 
+		//Scroll pane to scroll left and right on the entries
 		final ScrollPane scrollPane = new ScrollPane();
 		scrollPane.setContent(imageBox);
 		scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -430,7 +439,8 @@ public final class QueryPane extends AbstractPane {
 		scrollPane.setHvalue(0.5);
 		scrollPane.setStyle("-fx-background-color: rgb(33,33,33);");
 		scrollPane.setFitToWidth(true);
-
+		
+		//Stack pane to overlay the anchor pane(the arrows)
 		StackPane stackPane = new StackPane();
 		AnchorPane anchorButtons = scrollButtons(scrollPane, data.size());
 
@@ -440,7 +450,7 @@ public final class QueryPane extends AbstractPane {
 		stackPane.setPickOnBounds(true);
 		stackPane.setPadding(new Insets(10, 10, 10, 10));
 
-		//stackPane.setPadding(new Insets(W * 0.25, W * 0.25, W * 0.25, W * 0.1));
+		//VBox to add the category title and the movies
 		VBox movies = new VBox();
 		Label category = new Label(searchTerm);
 		category.setTextFill(Color.TEAL);
@@ -455,6 +465,7 @@ public final class QueryPane extends AbstractPane {
 		return movies;
 	}
 	
+	//Anchor pane for the horizontal scrolling arrows
 	private AnchorPane scrollButtons(final ScrollPane scrollPane,int dataSize)
 	{
 		double scrollSpeed = 1.15/(double)(dataSize*3);
@@ -498,6 +509,7 @@ public final class QueryPane extends AbstractPane {
 		
 	}
 	
+	//method to deal with picking categories or searching if none were selected
 	private ArrayList<Video> getMovieType(String movieType)
 	{
 		if(movieType.equals("Action"))
