@@ -210,37 +210,49 @@ public final class QueryPane extends AbstractPane {
 		viewPane.setVisible(false);
 		return base;
 	}
-	
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	///TODO/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// TODO/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	///TODO/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// TODO/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	///TODO/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// TODO/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// TODO: 	Build Query Pane for Use of Mason's HBOXES or VBOXES. Simply build good title and menu based off 
-	//			groupme picture and then set as (border pane where pane that holds title and menu is at top) and
-	//			(Accordion "maybe" as the holder of the Array of V or H Boxes that Mason Supplies)
+	// TODO: Build Query Pane for Use of Mason's HBOXES or VBOXES. Simply build good
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// title
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// and
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// menu
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// based
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// off
+	// groupme picture and then set as (border pane where pane that holds title and
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// menu
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// is
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// at
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// top)
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// and
+	// (Accordion "maybe" as the holder of the Array of V or H Boxes that Mason
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// Supplies)
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void buildQuery() {
 		Label title = new Label("Vipir");
 		title.setFont(new Font("Arial", 100));
 		title.setTextFill(Color.TEAL);
 		title.setPadding(new Insets(40.0, 40.0, 40.0, 40.0));
-		
+
 		VBox movieCategories = new VBox();
-		movieCategories.getChildren().addAll(buildMoviesBox("Action"), buildMoviesBox("Comedy"), buildMoviesBox("Bruce Lee"), buildMoviesBox("Games"));
+		movieCategories.getChildren().addAll(buildMoviesBox("Action"), buildMoviesBox("Comedy"),
+				buildMoviesBox("Bruce Lee"), buildMoviesBox("Games"));
 		movieCategories.setStyle("-fx-background-color: rgb(33,33,33);");
-		
+
 		queryPane = new BorderPane(movieCategories, title, null, null, null);
 		queryPane.setStyle("-fx-background-color: rgb(33,33,33);");
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	///TODO/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// TODO/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	///TODO/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// TODO/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	///TODO/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// TODO/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	private void buildVidView() {
@@ -366,54 +378,50 @@ public final class QueryPane extends AbstractPane {
 			setGraphic(icon);
 		}
 	}
-	
-	private VBox buildMoviesBox(String searchTerm)
-	{
+
+	private VBox buildMoviesBox(String searchTerm) {
 		ArrayList<Video> data = getMovieType(searchTerm);
 		int width = 150;
 		int height = 120;
 
-		Group all = new Group();	
-		for(int i = 0; i < 3; i++) 
-		{
-			for (Video item : data)
-			{
-				ImageView	icon = new ImageView(new Image(item.getPicUrl(), width, height, false, true));
-				Label		label = new Label(item.getTitle(), icon);
-	
+		Group all = new Group();
+		for (int i = 0; i < 3; i++) {
+			for (Video item : data) {
+				ImageView icon = new ImageView(new Image(item.getPicUrl(), width, height, false, true));
+				Label label = new Label(item.getTitle(), icon);
+
 				label.setTextFill(Color.WHITE);
 				label.setContentDisplay(ContentDisplay.TOP);
 				label.setPrefWidth(100);
 				label.setStyle("-fx-background-color: rgb(33,33,33);");
-	
+
 				label.setPadding(new Insets(0, W * 0.1, 0, W * 0.1));
-				label.addEventHandler(MouseEvent.MOUSE_CLICKED,
-						new EventHandler<MouseEvent>() {
-						    @Override
-						    public void handle(MouseEvent event) {
-								setViewURL(item.getVideoUrl());
-								queryPane.setVisible(false);
-								viewPane.setVisible(true);
-						    }
+				label.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(MouseEvent event) {
+						setViewURL(item.getVideoUrl());
+						queryPane.setVisible(false);
+						viewPane.setVisible(true);
+					}
 				});
-				
+
 				// Add a rounded rectangular border around each item
-				Rectangle	shape = new Rectangle(width, height);
-	
+				Rectangle shape = new Rectangle(width, height);
+
 				shape.setArcWidth(4.0);
 				shape.setArcHeight(4.0);
-	
+
 				shape.setFill(Color.BLACK);
-	
+
 				shape.setStroke(Color.BLACK);
 				shape.setStrokeType(StrokeType.OUTSIDE);
 				shape.setStrokeWidth(2.0);
 				shape.setStyle("-fx-background-color: rgb(33,33,33);");
-	
+
 				// Put the border and label together, and add it to the set of items
 				StackPane one = new StackPane(shape, label);
 				one.setStyle("-fx-background-color: rgb(33,33,33);");
-	
+
 				all.getChildren().add(one);
 			}
 		}
@@ -440,7 +448,7 @@ public final class QueryPane extends AbstractPane {
 		stackPane.setPickOnBounds(true);
 		stackPane.setPadding(new Insets(10, 10, 10, 10));
 
-		//stackPane.setPadding(new Insets(W * 0.25, W * 0.25, W * 0.25, W * 0.1));
+		// stackPane.setPadding(new Insets(W * 0.25, W * 0.25, W * 0.25, W * 0.1));
 		VBox movies = new VBox();
 		Label category = new Label(searchTerm);
 		category.setTextFill(Color.TEAL);
@@ -454,53 +462,68 @@ public final class QueryPane extends AbstractPane {
 
 		return movies;
 	}
-	
-	private AnchorPane scrollButtons(final ScrollPane scrollPane,int dataSize)
-	{
-		double scrollSpeed = 1.15/(double)(dataSize*3);
+
+	private AnchorPane scrollButtons(final ScrollPane scrollPane, int dataSize) {
+		double scrollSpeed = .2 / (double) (dataSize * 3);
 		Button rightArrow = new Button();
 		rightArrow.setGraphic(createFXIcon("arrowright.png", W, H));
 		rightArrow.setStyle("-fx-focus-color: transparent; -fx-background-color: transparent;");
-		rightArrow.setOnAction(new EventHandler<ActionEvent>() {
-			
-				@Override
-				public void handle(ActionEvent arg0) {
-					System.out.println(scrollPane.getHvalue());
-					if(scrollPane.getHvalue() >= 0.98)
-					{
-						scrollPane.setHvalue(scrollPane.getHvalue() - (scrollSpeed*((dataSize-1))));
-					}
-					scrollPane.setHvalue(scrollPane.getHvalue() + scrollSpeed);
+		/*rightArrow.setOnAction(new EventHandler<ActionEvent>() {
 
+			@Override
+			public void handle(ActionEvent arg0) {
+				System.out.println(scrollPane.getHvalue());
+				if (scrollPane.getHvalue() >= 0.98) {
+					scrollPane.setHvalue(scrollPane.getHvalue() - (scrollSpeed * ((dataSize - 1))));
 				}
+				scrollPane.setHvalue(scrollPane.getHvalue() + scrollSpeed);
+
+			}
+		});*/
+		rightArrow.addEventHandler(MouseEvent.MOUSE_MOVED, new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent e) {
+				System.out.println(scrollPane.getHvalue());
+				if (scrollPane.getHvalue() >= 0.98) {
+					scrollPane.setHvalue(scrollPane.getHvalue() - (scrollSpeed * ((dataSize - 1))));
+				}
+				scrollPane.setHvalue(scrollPane.getHvalue() + scrollSpeed);
+			}
 		});
 		
 		Button leftArrow = new Button();
 		leftArrow.setGraphic(createFXIcon("arrowleft.png", W, H));
 		leftArrow.setStyle("-fx-focus-color: transparent; -fx-background-color: transparent;");
-		leftArrow.setOnAction(new EventHandler<ActionEvent>() {
-			
-				@Override
-				public void handle(ActionEvent arg0) {
-					if(scrollPane.getHvalue() <= 0.02)
-					{
-						scrollPane.setHvalue(scrollPane.getHvalue() + (scrollSpeed*((dataSize-1))));
-					}
-					scrollPane.setHvalue(scrollPane.getHvalue() - scrollSpeed);
+		/*leftArrow.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				if (scrollPane.getHvalue() <= 0.02) {
+					scrollPane.setHvalue(scrollPane.getHvalue() + (scrollSpeed * ((dataSize - 1))));
 				}
+				scrollPane.setHvalue(scrollPane.getHvalue() - scrollSpeed);
+			}
+		});*/
+		leftArrow.addEventHandler(MouseEvent.MOUSE_MOVED, new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent e) {
+				if (scrollPane.getHvalue() <= 0.02) {
+					scrollPane.setHvalue(scrollPane.getHvalue() + (scrollSpeed * ((dataSize - 1))));
+				}
+				scrollPane.setHvalue(scrollPane.getHvalue() - scrollSpeed);
+			}
 		});
-		
+
 		AnchorPane anchorPane = new AnchorPane();
 		AnchorPane.setLeftAnchor(leftArrow, 1.0);
 		AnchorPane.setRightAnchor(rightArrow, 1.0);
 		anchorPane.getChildren().addAll(leftArrow, rightArrow);
 		return anchorPane;
-		
+
 	}
-	
-	private ArrayList<Video> getMovieType(String movieType)
-	{
-		if(movieType.equals("Action"))
+
+	private ArrayList<Video> getMovieType(String movieType) {
+		if (movieType.equals("Action"))
 			return model.getAction();
 		else if (movieType.equals("Romance"))
 			return model.getRomance();
@@ -520,8 +543,7 @@ public final class QueryPane extends AbstractPane {
 			return model.getHorror();
 		else if (movieType.equals("Scifi"))
 			return model.getScifi();
-		else
-		{
+		else {
 			model.setSearch(movieType);
 			return model.getVideosList();
 		}
