@@ -21,11 +21,6 @@ public final class View {
 		windowHandler = new WindowHandler();
 		panes = new ArrayList<AbstractPane>();
 		panes.add(new QueryPane(controller, model));
-		//panes.add(new CyclePane(controller));
-		//panes.add(new FloatPane(controller));
-		//panes.add(new ImagePane(controller));
-		//panes.add(new WebPane(controller));
-		//panes.add(new GalleryPane(controller));
 
 		TabPane tabPane = new TabPane();
 

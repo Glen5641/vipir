@@ -112,16 +112,13 @@ public final class QueryPane extends AbstractPane {
 	private Pane buildPane() {
 		buildQuery();
 		buildVidView();
+		
 		lay = new StackPane(queryPane, viewPane);
 		StackPane.setAlignment(queryPane, Pos.CENTER);
 		StackPane.setAlignment(viewPane, Pos.CENTER);
-		ScrollPane scroll = new ScrollPane();
-		scroll.setContent(lay);
-		scroll.setFitToWidth(true);
-		scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-		scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
-		base = new BorderPane(null, scroll, null, null, null);
+		base = new BorderPane(null, lay, null, null, null);
+		
 		viewPane.prefWidthProperty().bind(base.widthProperty());
 		queryPane.prefWidthProperty().bind(base.widthProperty());
 		lay.prefWidthProperty().bind(base.widthProperty());
@@ -143,7 +140,7 @@ public final class QueryPane extends AbstractPane {
 		title.setPadding(new Insets(40.0, 40.0, 40.0, 40.0));
 		
 		VBox movieCategories = new VBox();
-		movieCategories.getChildren().addAll(buildMoviesBox("Action"), buildMoviesBox("Comedy"), buildMoviesBox("Games"));
+		movieCategories.getChildren().addAll(buildMoviesBox("Action"), buildMoviesBox("Comedy"), buildMoviesBox("Games"), buildMoviesBox("Scifi"));
 		movieCategories.setStyle("-fx-background-color: rgb(33,33,33);");
 		
 		queryPane = new BorderPane(movieCategories, title, null, null, null);
