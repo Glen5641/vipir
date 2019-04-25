@@ -138,55 +138,55 @@ public final class QueryPane extends AbstractPane {
 	private Pane buildPane() {
 		/*
 		 * data = loadFXData("list-movies.txt");
-		 * 
+		 *
 		 * // Transfer the data into an ObservableList to use as the table model
 		 * ObservableList<Record> records = FXCollections.observableArrayList();
-		 * 
+		 *
 		 * for (List<String> item : data) records.add(new Record(item.get(0),
 		 * item.get(1)));
-		 * 
+		 *
 		 * // Create a column for movie titles TableColumn<Record, String> nameColumn =
 		 * new TableColumn<Record, String>("Title");
-		 * 
+		 *
 		 * nameColumn.setEditable(false); nameColumn.setPrefWidth(250);
 		 * nameColumn.setCellValueFactory(new PropertyValueFactory<Record,
 		 * String>("name")); nameColumn.setCellFactory(new NameCellFactory());
-		 * 
+		 *
 		 * // Create a column for movie posters TableColumn<Record, String> iconColumn =
 		 * new TableColumn<Record, String>("Poster");
-		 * 
+		 *
 		 * iconColumn.setEditable(false); iconColumn.setPrefWidth(W + 16.0);
 		 * iconColumn.setCellValueFactory(new PropertyValueFactory<Record,
 		 * String>("icon")); iconColumn.setCellFactory(new IconCellFactory());
-		 * 
+		 *
 		 * // Create the table from the columns table = new TableView<Record>(); smodel
 		 * = table.getSelectionModel();
-		 * 
+		 *
 		 * table.setEditable(false); table.setPlaceholder(new Text("No Data!")); //
 		 * table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-		 * 
+		 *
 		 * table.getColumns().add(nameColumn); table.getColumns().add(iconColumn);
-		 * 
+		 *
 		 * table.setItems(records);
-		 * 
+		 *
 		 * // Create a split pane to share space between the cover pane and table
 		 * SplitPane splitPane = new SplitPane();
-		 * 
+		 *
 		 * splitPane.setOrientation(Orientation.VERTICAL);
 		 * splitPane.setDividerPosition(0, 0.1); // Put divider at 50% T-to-B
-		 * 
+		 *
 		 * Label tlabel = new Label("this space intentionally left blank"); Label llabel
 		 * = new Label("put accordion here"); Label rlabel = new
 		 * Label("put movieinfo here");
-		 * 
+		 *
 		 * tlabel.setPadding(PADDING); llabel.setPadding(PADDING);
 		 * rlabel.setPadding(PADDING);
-		 * 
+		 *
 		 * splitPane.getItems().add(tlabel); splitPane.getItems().add(table);
-		 * 
+		 *
 		 * StackPane lpane = new StackPane(llabel); StackPane rpane = new
 		 * StackPane(rlabel);
-		 * 
+		 *
 		 * // base = new BorderPane(table, null, rpane, null, lpane); base = new
 		 * BorderPane(splitPane, null, rpane, null, lpane);
 		 */
@@ -378,48 +378,33 @@ public final class QueryPane extends AbstractPane {
 			setGraphic(icon);
 		}
 	}
-<<<<<<< HEAD
-	
-	
+
+
 	// Builds a VBox with results from the search term, if it is one of the preset categories from the model we use those instead of searching.
 	private VBox buildMoviesBox(String searchTerm)
 	{
 		//get the data
-=======
-
-	private VBox buildMoviesBox(String searchTerm) {
->>>>>>> master
 		ArrayList<Video> data = getMovieType(searchTerm);
 		int width = 150;
 		int height = 120;
 
-<<<<<<< HEAD
 		//Generate the thumbnails and text and add listeners to link to videos
 		//This loops three times for reasons
-		Group all = new Group();	
-		for(int i = 0; i < 3; i++) 
+		Group all = new Group();
+		for(int i = 0; i < 3; i++)
 		{
 			for (Video item : data)
 			{
 				//Image and text
 				ImageView	icon = new ImageView(new Image(item.getPicUrl(), width, height, false, true));
 				Label		label = new Label(item.getTitle(), icon);
-	
-=======
-		Group all = new Group();
-		for (int i = 0; i < 3; i++) {
-			for (Video item : data) {
-				ImageView icon = new ImageView(new Image(item.getPicUrl(), width, height, false, true));
-				Label label = new Label(item.getTitle(), icon);
 
->>>>>>> master
 				label.setTextFill(Color.WHITE);
 				label.setContentDisplay(ContentDisplay.TOP);
 				label.setPrefWidth(100);
 				label.setStyle("-fx-background-color: rgb(33,33,33);");
-<<<<<<< HEAD
 				label.setPadding(new Insets(0, W * 0.1, 0, W * 0.1));
-				
+
 				//Adds the click event to open the video
 				label.addEventHandler(MouseEvent.MOUSE_CLICKED,
 						new EventHandler<MouseEvent>() {
@@ -429,17 +414,6 @@ public final class QueryPane extends AbstractPane {
 								queryPane.setVisible(false);
 								viewPane.setVisible(true);
 						    }
-=======
-
-				label.setPadding(new Insets(0, W * 0.1, 0, W * 0.1));
-				label.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-					@Override
-					public void handle(MouseEvent event) {
-						setViewURL(item.getVideoUrl());
-						queryPane.setVisible(false);
-						viewPane.setVisible(true);
-					}
->>>>>>> master
 				});
 
 				// Add a rounded rectangular border around each item
@@ -477,7 +451,7 @@ public final class QueryPane extends AbstractPane {
 		scrollPane.setHvalue(0.5);
 		scrollPane.setStyle("-fx-background-color: rgb(33,33,33);");
 		scrollPane.setFitToWidth(true);
-		
+
 		//Stack pane to overlay the anchor pane(the arrows)
 		StackPane stackPane = new StackPane();
 		AnchorPane anchorButtons = scrollButtons(scrollPane, data.size());
@@ -488,11 +462,7 @@ public final class QueryPane extends AbstractPane {
 		stackPane.setPickOnBounds(true);
 		stackPane.setPadding(new Insets(10, 10, 10, 10));
 
-<<<<<<< HEAD
 		//VBox to add the category title and the movies
-=======
-		// stackPane.setPadding(new Insets(W * 0.25, W * 0.25, W * 0.25, W * 0.1));
->>>>>>> master
 		VBox movies = new VBox();
 		Label category = new Label(searchTerm);
 		category.setTextFill(Color.TEAL);
@@ -506,17 +476,11 @@ public final class QueryPane extends AbstractPane {
 
 		return movies;
 	}
-<<<<<<< HEAD
-	
+
 	//Anchor pane for the horizontal scrolling arrows
 	private AnchorPane scrollButtons(final ScrollPane scrollPane,int dataSize)
 	{
 		double scrollSpeed = 1.15/(double)(dataSize*3);
-=======
-
-	private AnchorPane scrollButtons(final ScrollPane scrollPane, int dataSize) {
-		double scrollSpeed = .2 / (double) (dataSize * 3);
->>>>>>> master
 		Button rightArrow = new Button();
 		rightArrow.setGraphic(createFXIcon("arrowright.png", W, H));
 		rightArrow.setStyle("-fx-focus-color: transparent; -fx-background-color: transparent;");
@@ -542,7 +506,7 @@ public final class QueryPane extends AbstractPane {
 				scrollPane.setHvalue(scrollPane.getHvalue() + scrollSpeed);
 			}
 		});
-		
+
 		Button leftArrow = new Button();
 		leftArrow.setGraphic(createFXIcon("arrowleft.png", W, H));
 		leftArrow.setStyle("-fx-focus-color: transparent; -fx-background-color: transparent;");
@@ -573,17 +537,11 @@ public final class QueryPane extends AbstractPane {
 		return anchorPane;
 
 	}
-<<<<<<< HEAD
-	
+
 	//method to deal with picking categories or searching if none were selected
 	private ArrayList<Video> getMovieType(String movieType)
 	{
 		if(movieType.equals("Action"))
-=======
-
-	private ArrayList<Video> getMovieType(String movieType) {
-		if (movieType.equals("Action"))
->>>>>>> master
 			return model.getAction();
 		else if (movieType.equals("Romance"))
 			return model.getRomance();
