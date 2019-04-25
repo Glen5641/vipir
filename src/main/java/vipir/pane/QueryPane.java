@@ -199,6 +199,8 @@ public final class QueryPane extends AbstractPane {
 		scroll.setContent(lay);
 		scroll.setFitToWidth(true);
 		scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+		scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+
 		base = new BorderPane(null, scroll, null, null, null);
 		viewPane.prefWidthProperty().bind(base.widthProperty());
 		queryPane.prefWidthProperty().bind(base.widthProperty());

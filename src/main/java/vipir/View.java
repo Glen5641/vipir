@@ -9,14 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
 import javafx.stage.*;
 import vipir.pane.AbstractPane;
-import vipir.pane.CyclePane;
-import vipir.pane.FloatPane;
-import vipir.pane.GalleryPane;
-import vipir.pane.ImagePane;
-import vipir.pane.MediaPane;
 import vipir.pane.QueryPane;
-import vipir.pane.TablePane;
-import vipir.pane.WebPane;
 
 public final class View {
 	private final Controller controller;
