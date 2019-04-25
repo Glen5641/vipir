@@ -3,8 +3,12 @@ package vipir;
 
 import javafx.animation.*;
 import javafx.event.*;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -21,7 +25,7 @@ public final class Application extends javafx.application.Application {
 	// **********************************************************************
 	// Main
 	// **********************************************************************
-
+	 
 	public static void main(String[] args) {
 		javafx.application.Application.launch(args);
 	}
@@ -47,21 +51,29 @@ public final class Application extends javafx.application.Application {
 	}
 
 	public void start(Stage stage) {
-		Text text = new Text("FXMVC");
+		Text text = new Text("Vipir");
+		text.setFill(Color.TEAL);
+		
 		StackPane root = new StackPane();
-
+		root.setStyle("-fx-background-color: rgb(33, 33, 33)");
+		
 		root.getChildren().add(text);
 
-		Scene scene = new Scene(root, 400, 200);
-
+		Scene scene = new Scene(root, 800, 600);
+		
+		ProgressIndicator pb = new ProgressIndicator();
+		pb.setStyle(" -fx-progress-color: aquamarine;");		
+		
+		root.getChildren().add(pb);
+	
 		stage.setScene(scene);
 		stage.centerOnScreen();
 		stage.show();
+		
 
 		// Animation: scale text to fill stage over 1.0 seconds
 		Duration sd = new Duration(500);
 		ScaleTransition st = new ScaleTransition(sd, text);
-
 		st.setFromX(0.01);
 		st.setFromY(0.01);
 		st.setToX(5.0);
@@ -71,7 +83,7 @@ public final class Application extends javafx.application.Application {
 
 		// Animation: Hide stage after 1.5 seconds
 		Timeline timeline = new Timeline();
-		Duration duration = new Duration(750);
+		Duration duration = new Duration(7500);
 		KeyFrame endframe = new KeyFrame(duration, new EndSplash(stage));
 
 		timeline.getKeyFrames().add(endframe);
