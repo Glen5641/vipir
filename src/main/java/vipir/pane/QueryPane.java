@@ -221,24 +221,18 @@ public final class QueryPane extends AbstractPane {
 		title.setFont(new Font("Arial", 100));
 		title.setTextFill(Color.TEAL);
 		title.setPadding(new Insets(40.0, 40.0, 40.0, 40.0));
-		Button b = new Button("TO VIDEO LAYOUT");
-		// action event
-		EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent e) {
-				setViewURL("https://www.youtube.com/watch?v=Mfmtra55s-U,_DIU2PvHs5U");
-				queryPane.setVisible(false);
-				viewPane.setVisible(true);
-			}
-		};
-		b.setOnAction(event);
 		
 		VBox movieCategories = new VBox();
-		movieCategories.getChildren().addAll(buildMoviesBox("Action"), buildMoviesBox("Comedy"), buildMoviesBox("PewDiePie"));
+		movieCategories.getChildren().addAll(buildMoviesBox("Action"), buildMoviesBox("Comedy"), buildMoviesBox("Bruce Lee"), buildMoviesBox("Games"));
+		movieCategories.setStyle("-fx-background-color: rgb(33,33,33);");
 		
-		queryPane = new BorderPane(movieCategories, title, null, b, null);
-		BorderPane.setAlignment(b, Pos.TOP_CENTER);
+		ScrollPane scroll = new ScrollPane();
+		scroll.setContent(movieCategories);
+		scroll.setFitToWidth(true);
+		scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+		
+		queryPane = new BorderPane(scroll, title, null, null, null);
 		queryPane.setStyle("-fx-background-color: rgb(33,33,33);");
-
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	///TODO/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -403,7 +397,7 @@ public final class QueryPane extends AbstractPane {
 				});
 				
 				// Add a rounded rectangular border around each item
-				Rectangle	shape = new Rectangle(width + 4.0, height + 24.0);
+				Rectangle	shape = new Rectangle(width, height);
 	
 				shape.setArcWidth(4.0);
 				shape.setArcHeight(4.0);
@@ -434,6 +428,7 @@ public final class QueryPane extends AbstractPane {
 		scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 		scrollPane.setHvalue(0.5);
 		scrollPane.setStyle("-fx-background-color: rgb(33,33,33);");
+		scrollPane.setFitToWidth(true);
 
 		StackPane stackPane = new StackPane();
 		AnchorPane anchorButtons = scrollButtons(scrollPane, data.size());
