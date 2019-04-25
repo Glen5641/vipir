@@ -233,7 +233,7 @@ public final class QueryPane extends AbstractPane {
 		b.setOnAction(event);
 		
 		VBox movieCategories = new VBox();
-		movieCategories.getChildren().addAll(buildMoviesBox("Action"), buildMoviesBox("Comedy"));
+		movieCategories.getChildren().addAll(buildMoviesBox("Action"), buildMoviesBox("Comedy"), buildMoviesBox("PewDiePie"));
 		
 		queryPane = new BorderPane(movieCategories, title, null, b, null);
 		BorderPane.setAlignment(b, Pos.TOP_CENTER);
@@ -372,9 +372,9 @@ public final class QueryPane extends AbstractPane {
 		}
 	}
 	
-	private VBox buildMoviesBox(String movieType)
+	private VBox buildMoviesBox(String searchTerm)
 	{
-		ArrayList<Video> data = getMovieType(movieType);
+		ArrayList<Video> data = getMovieType(searchTerm);
 		int width = 150;
 		int height = 120;
 
@@ -446,7 +446,7 @@ public final class QueryPane extends AbstractPane {
 
 		//stackPane.setPadding(new Insets(W * 0.25, W * 0.25, W * 0.25, W * 0.1));
 		VBox movies = new VBox();
-		Label category = new Label(movieType);
+		Label category = new Label(searchTerm);
 		category.setTextFill(Color.TEAL);
 		category.setFont(new Font("Arial", 24));
 		movies.getChildren().addAll(category, stackPane);
@@ -525,7 +525,10 @@ public final class QueryPane extends AbstractPane {
 		else if (movieType.equals("Scifi"))
 			return model.getScifi();
 		else
-			return null;
+		{
+			model.setSearch(movieType);
+			return model.getVideosList();
+		}
 	}
 }
 
