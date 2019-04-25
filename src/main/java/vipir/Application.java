@@ -83,7 +83,7 @@ public final class Application extends javafx.application.Application {
 
 		// Animation: Hide stage after 1.5 seconds
 		Timeline timeline = new Timeline();
-		Duration duration = new Duration(15000);
+		Duration duration = new Duration(7500);
 		KeyFrame endframe = new KeyFrame(duration, new EndSplash(stage));
 
 		timeline.getKeyFrames().add(endframe);
