@@ -2,12 +2,11 @@
 package vipir;
 
 import javafx.animation.*;
+
 import javafx.event.*;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -70,7 +69,6 @@ public final class Application extends javafx.application.Application {
 		stage.centerOnScreen();
 		stage.show();
 		
-
 		// Animation: scale text to fill stage over 1.0 seconds
 		Duration sd = new Duration(500);
 		ScaleTransition st = new ScaleTransition(sd, text);

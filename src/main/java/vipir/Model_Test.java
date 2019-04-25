@@ -1,8 +1,6 @@
 package vipir;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * Test Cases for Model
@@ -17,11 +15,6 @@ public class Model_Test {
 		Model 		model      = new Model(controller);
 		controller.setModel(model);
 		
-		//System.out.println("Search Something!!!");
-		//Scanner sc = new Scanner(System.in);
-		//model.setSearch(sc.nextLine());
-		
-		//ArrayList<Video> videos = model.getVideosList();
 		ArrayList<Video> action = model.getAction();
 		ArrayList<Video> comedy = model.getComedy();
 		ArrayList<Video> romance = model.getRomance();
@@ -34,7 +27,7 @@ public class Model_Test {
 		ArrayList<Video> anime = model.getAnime();
 		
 		for(int i = 0; i < action.size(); i++) {
-			//System.out.println(videos.get(i).toString());
+		
 			System.out.println(i*11+1);
 			System.out.println(action.get(i).toString());
 			System.out.println(i*11+2);
@@ -57,6 +50,6 @@ public class Model_Test {
 			System.out.println(anime.get(i).toString());
 			System.out.println(i*11+11);
 		}
-		//sc.close();
+		
 	}
 }
