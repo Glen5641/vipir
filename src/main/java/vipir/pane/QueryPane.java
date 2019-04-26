@@ -16,9 +16,6 @@
 package vipir.pane;
 
 import java.util.ArrayList;
-
-
-//import java.lang.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -37,7 +34,6 @@ import javafx.scene.web.WebView;
 import vipir.Controller;
 import vipir.Model;
 import vipir.Video;
-
 
 //******************************************************************************
 
@@ -72,10 +68,7 @@ public final class QueryPane extends AbstractPane {
 
 	// Layout
 	private BorderPane base;
-	private FlowPane lay;
-	//private TableView<Record> table;
-	//private SelectionModel<Record> smodel;
-
+	private StackPane lay;
 	private BorderPane queryPane;
 	private BorderPane viewPane;
 
@@ -119,43 +112,57 @@ public final class QueryPane extends AbstractPane {
 	private Pane buildPane() {
 		buildQuery();
 		buildVidView();
-		lay = new FlowPane(queryPane, viewPane);
 
-		ScrollPane scroll = new ScrollPane(lay);
-		scroll.setFitToWidth(true);
-		scroll.setFitToHeight(true);
-	    base = new BorderPane(scroll, null, null, null, null);
-
-	    scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-	    
-	    scroll.prefViewportWidthProperty().bind(base.widthProperty());
+		
+		lay = new StackPane(queryPane, viewPane);
+		StackPane.setAlignment(queryPane, Pos.CENTER);
+		StackPane.setAlignment(viewPane, Pos.CENTER);
+		
+		base = new BorderPane(null, lay, null, null, null);
+		
 		viewPane.prefWidthProperty().bind(base.widthProperty());
 		queryPane.prefWidthProperty().bind(base.widthProperty());
 		lay.prefWidthProperty().bind(base.widthProperty());
 		viewPane.prefHeightProperty().bind(base.heightProperty());
 		queryPane.setVisible(true);
 		viewPane.setVisible(false);
-
-
 		return base;
 	}
-
+	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// TODO: 	Build Query Pane for Use of Mason's HBOXES or VBOXES. Simply build good title and menu based off
+	// TODO: 	Build Query Pane for Use of Mason's HBOXES or VBOXES. Simply build good title and menu based off 
 	//			groupme picture and then set as (border pane where pane that holds title and menu is at top) and
 	//			(Accordion "maybe" as the holder of the Array of V or H Boxes that Mason Supplies)
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void buildQuery() {
+		//Box to pass in text to be searched
+		HBox searchBox = new HBox();
+		TextField searchField = new TextField();
+		searchField.setText("Search movies here."); //search <genre> movies here. 
+		searchBox.getChildren().add(searchField);
+		searchBox.setStyle("-fx-background-color: rgb(0,128,128);");
+		
+		VBox movieCategories = new VBox();
+		//movieCategories.getChildren().addAll(buildMoviesBox("Action"), buildMoviesBox("Comedy"), buildMoviesBox("Games"), buildMoviesBox("Scifi"));
+		movieCategories.setStyle("-fx-background-color: rgb(33,33,33);");
+		
+		EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent e) {
+				String text = searchField.getText();
+				movieCategories.getChildren().addAll(buildMoviesBox(text));
+				 
+			}
+		};
+		
+		searchField.setOnAction(event);
+		
 		Label title = new Label("Vipir");
 		title.setFont(new Font("Arial", 100));
 		title.setTextFill(Color.TEAL);
 		title.setPadding(new Insets(40.0, 40.0, 40.0, 40.0));
-
-		VBox movieCategories = new VBox();
-		movieCategories.getChildren().addAll(buildMoviesBox("Action"), buildMoviesBox("Comedy"), buildMoviesBox("Games"), buildMoviesBox("Scifi"));
-		movieCategories.setStyle("-fx-background-color: rgb(33,33,33);");
-
+		
 		queryPane = new BorderPane(movieCategories, title, null, null, null);
+		queryPane.setTop(searchBox);
 		queryPane.setStyle("-fx-background-color: rgb(33,33,33);");
 	}
 
@@ -226,6 +233,7 @@ public final class QueryPane extends AbstractPane {
 	// Builds a VBox with results from the search term, if it is one of the preset categories from the model we use those instead of searching.
 	private VBox buildMoviesBox(String searchTerm)
 	{
+		
 		//get the data
 		ArrayList<Video> data = getMovieType(searchTerm);
 		int width = 150;
@@ -233,21 +241,22 @@ public final class QueryPane extends AbstractPane {
 
 		//Generate the thumbnails and text and add listeners to link to videos
 		//This loops three times for reasons
-		Group all = new Group();
-		for(int i = 0; i < 3; i++)
+		Group all = new Group();	
+		for(int i = 0; i < 3; i++) 
 		{
-			for (Video item : data)
+			for (final Video item : data)
 			{
+				
 				//Image and text
 				ImageView	icon = new ImageView(new Image(item.getPicUrl(), width, height, false, true));
 				Label		label = new Label(item.getTitle(), icon);
-
+	
 				label.setTextFill(Color.WHITE);
 				label.setContentDisplay(ContentDisplay.TOP);
 				label.setPrefWidth(100);
 				label.setStyle("-fx-background-color: rgb(33,33,33);");
 				label.setPadding(new Insets(0, W * 0.1, 0, W * 0.1));
-
+				
 				//Adds the click event to open the video
 				label.addEventHandler(MouseEvent.MOUSE_CLICKED,
 						new EventHandler<MouseEvent>() {
@@ -258,24 +267,24 @@ public final class QueryPane extends AbstractPane {
 								viewPane.setVisible(true);
 						    }
 				});
-
+				
 				// Add a rounded rectangular border around each item
 				Rectangle	shape = new Rectangle(width, height);
-
+	
 				shape.setArcWidth(4.0);
 				shape.setArcHeight(4.0);
-
+	
 				shape.setFill(Color.BLACK);
-
+	
 				shape.setStroke(Color.BLACK);
 				shape.setStrokeType(StrokeType.OUTSIDE);
 				shape.setStrokeWidth(2.0);
 				shape.setStyle("-fx-background-color: rgb(33,33,33);");
-
+	
 				// Put the border and label together, and add it to the set of items
 				StackPane one = new StackPane(shape, label);
 				one.setStyle("-fx-background-color: rgb(33,33,33);");
-
+	
 				all.getChildren().add(one);
 			}
 		}
@@ -285,7 +294,8 @@ public final class QueryPane extends AbstractPane {
 		imageBox.setSpacing(10);
 		imageBox.getChildren().addAll(all.getChildren());
 		imageBox.setStyle("-fx-background-color: rgb(33,33,33);");
-
+		
+		
 		//Scroll pane to scroll left and right on the entries
 		final ScrollPane scrollPane = new ScrollPane();
 		scrollPane.setContent(imageBox);
@@ -294,7 +304,8 @@ public final class QueryPane extends AbstractPane {
 		scrollPane.setHvalue(0.5);
 		scrollPane.setStyle("-fx-background-color: rgb(33,33,33);");
 		scrollPane.setFitToWidth(true);
-
+		
+		
 		//Stack pane to overlay the anchor pane(the arrows)
 		StackPane stackPane = new StackPane();
 		AnchorPane anchorButtons = scrollButtons(scrollPane, data.size());
@@ -319,16 +330,16 @@ public final class QueryPane extends AbstractPane {
 
 		return movies;
 	}
-
+	
 	//Anchor pane for the horizontal scrolling arrows
-	private AnchorPane scrollButtons(final ScrollPane scrollPane,int dataSize)
+	private AnchorPane scrollButtons(final ScrollPane scrollPane,final int dataSize)
 	{
-		double scrollSpeed = 1.15/(double)(dataSize*3);
+		final double scrollSpeed = 1.15/(double)(dataSize*3);
 		Button rightArrow = new Button();
 		rightArrow.setGraphic(createFXIcon("arrowright.png", W, H));
 		rightArrow.setStyle("-fx-focus-color: transparent; -fx-background-color: transparent;");
 		rightArrow.setOnAction(new EventHandler<ActionEvent>() {
-
+			
 				@Override
 				public void handle(ActionEvent arg0) {
 					System.out.println(scrollPane.getHvalue());
@@ -340,12 +351,12 @@ public final class QueryPane extends AbstractPane {
 
 				}
 		});
-
+		
 		Button leftArrow = new Button();
 		leftArrow.setGraphic(createFXIcon("arrowleft.png", W, H));
 		leftArrow.setStyle("-fx-focus-color: transparent; -fx-background-color: transparent;");
 		leftArrow.setOnAction(new EventHandler<ActionEvent>() {
-
+			
 				@Override
 				public void handle(ActionEvent arg0) {
 					if(scrollPane.getHvalue() <= 0.02)
@@ -355,15 +366,15 @@ public final class QueryPane extends AbstractPane {
 					scrollPane.setHvalue(scrollPane.getHvalue() - scrollSpeed);
 				}
 		});
-
+		
 		AnchorPane anchorPane = new AnchorPane();
 		AnchorPane.setLeftAnchor(leftArrow, 1.0);
 		AnchorPane.setRightAnchor(rightArrow, 1.0);
 		anchorPane.getChildren().addAll(leftArrow, rightArrow);
 		return anchorPane;
-
+		
 	}
-
+	
 	//method to deal with picking categories or searching if none were selected
 	private ArrayList<Video> getMovieType(String movieType)
 	{
