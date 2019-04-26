@@ -138,12 +138,12 @@ public final class QueryPane extends AbstractPane {
 		//Box to pass in text to be searched
 		HBox searchBox = new HBox();
 		TextField searchField = new TextField();
-		searchField.setText("Search movies here."); //search <genre> movies here. 
+		searchField.setPromptText("Search movies here."); //search <genre> movies here. 
 		searchBox.getChildren().add(searchField);
 		searchBox.setStyle("-fx-background-color: rgb(0,128,128);");
 		
 		VBox movieCategories = new VBox();
-		//movieCategories.getChildren().addAll(buildMoviesBox("Action"), buildMoviesBox("Comedy"), buildMoviesBox("Games"), buildMoviesBox("Scifi"));
+		movieCategories.getChildren().addAll(buildMoviesBox("Action"), buildMoviesBox("Comedy"), buildMoviesBox("Games"), buildMoviesBox("Scifi"));
 		movieCategories.setStyle("-fx-background-color: rgb(33,33,33);");
 		
 		EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
