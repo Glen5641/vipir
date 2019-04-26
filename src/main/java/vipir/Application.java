@@ -12,14 +12,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-//******************************************************************************
-
-/**
- * The <CODE>Application</CODE> class.
- *
- * @author John Weaver
- * @version %I%, %G%
- */
 public final class Application extends javafx.application.Application {
 	// **********************************************************************
 	// Main
