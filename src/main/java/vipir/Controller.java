@@ -37,12 +37,12 @@ public final class Controller {
 	}
 
 	public void set(String key, Object value) {
-		//System.out.println("controller: set " + key + " to " + value);
+		
 		model.setValue(key, value);
 	}
 
 	public void trigger(String name) {
-		//System.out.println("controller: trigger " + name);
+		
 		model.trigger(name);
 	}
 }

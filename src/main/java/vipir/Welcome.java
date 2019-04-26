@@ -36,10 +36,6 @@ public final class Welcome {
 			this.message = ((message != null) ? message : "");
 		}
 
-		public HelloPanel() {
-			this("");
-		}
-
 		public void paintComponent(Graphics g) {
 			FontMetrics fm = g.getFontMetrics(FONT);
 			int fw = fm.stringWidth(message);

@@ -21,12 +21,7 @@ public final class View {
 		windowHandler = new WindowHandler();
 		panes = new ArrayList<AbstractPane>();
 		panes.add(new QueryPane(controller, model));
-		//panes.add(new CyclePane(controller));
-		//panes.add(new FloatPane(controller));
-		//panes.add(new ImagePane(controller));
-		//panes.add(new WebPane(controller));
-		//panes.add(new GalleryPane(controller));
-
+	
 		TabPane tabPane = new TabPane();
 
 		for (AbstractPane pane : panes)
@@ -37,9 +32,9 @@ public final class View {
 		String surl = url.toExternalForm();
 
 		scene.getStylesheets().add(surl);
-
-		Stage stage = new Stage();
-
+		
+		Stage stage = new Stage();		
+	
 		Screen screen = Screen.getPrimary();
 		Rectangle2D bounds = screen.getVisualBounds();
 		stage.setOnHiding(windowHandler);
@@ -49,6 +44,7 @@ public final class View {
 		stage.setY(bounds.getMinY());
 		stage.setWidth(bounds.getWidth() - 400);
 		stage.setHeight(bounds.getHeight());
+		
 		stage.show();
 	}
 
