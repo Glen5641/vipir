@@ -68,7 +68,7 @@ public final class QueryPane extends AbstractPane {
 
 	// Layout
 	private BorderPane base;
-	private StackPane lay;
+	private FlowPane lay;
 	private BorderPane queryPane;
 	private BorderPane viewPane;
 
@@ -158,7 +158,7 @@ public final class QueryPane extends AbstractPane {
 		HBox searchBox = new HBox();
 		searchBox.setStyle("-fx-background-color: rgb(0,128,128);");
 		searchBox.setAlignment(Pos.BOTTOM_RIGHT);
-		searchBox.setPadding(new Insets(10.0, 10.0, 10.0, 10.0));
+		searchBox.setPadding(new Insets(10.0, 20.0, 10.0, 10.0));
 		searchBox.getChildren().addAll(cb, searchField);
 		searchBox.setSpacing(20);
        // searchBox.getChildren().add(cb);
