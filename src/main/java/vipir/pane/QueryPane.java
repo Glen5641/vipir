@@ -73,6 +73,8 @@ public final class QueryPane extends AbstractPane {
 	private BorderPane viewPane;
 
 	private WebView webView;
+	
+	private boolean second = false;
 
 	// **********************************************************************
 	// Constructors and Finalizer
@@ -145,20 +147,21 @@ public final class QueryPane extends AbstractPane {
 		
 		//add combo box to searchBox that can add and remove the default categories
 		final ComboBox cb = new ComboBox();
-		cb.getItems().add("All");
 		cb.setPromptText("All");
 		cb.getItems().add("Comedy");
 		cb.getItems().add("SciFi");
 		cb.getItems().add("Action");
 		cb.getItems().add("Horror");
 		cb.getItems().add("Anime");
+		cb.setPrefWidth(150);
 		
 		//Box to pass in text to be searched
 		HBox searchBox = new HBox();
 		searchBox.setStyle("-fx-background-color: rgb(0,128,128);");
 		searchBox.setAlignment(Pos.BOTTOM_RIGHT);
 		searchBox.setPadding(new Insets(10.0, 10.0, 10.0, 10.0));
-		searchBox.getChildren().addAll(searchField, cb);
+		searchBox.getChildren().addAll(cb, searchField);
+		searchBox.setSpacing(20);
        // searchBox.getChildren().add(cb);
 		
 		HBox.setHgrow(searchBox, Priority.ALWAYS);
@@ -175,15 +178,21 @@ public final class QueryPane extends AbstractPane {
 				 
 			}
 		};
-		
+	
 		EventHandler<ActionEvent> event2 = new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e) {
 				String genre = (String) cb.getValue();
-				if(!genre.equals("All")) {
-					movieCategories.getChildren().add(0, buildMoviesBox(genre));			
+				boolean add = true;
+				for(int i = 0; i < movieCategories.getChildren().size(); i++) {
+					String title = ((Label)((VBox)(movieCategories.getChildren().get(i))).getChildren().get(0)).getText();
+					if(genre.equals(title)) {
+						movieCategories.getChildren().remove(i);
+						i--;
+						add = false;
+					}
 				}
-				else {
-				movieCategories.getChildren().add(0, buildMoviesBox("All"));
+				if(add) {
+					movieCategories.getChildren().add(buildMoviesBox(genre));
 				}
 			}
 			
