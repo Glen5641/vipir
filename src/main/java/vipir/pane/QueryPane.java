@@ -120,8 +120,6 @@ public final class QueryPane extends AbstractPane {
 		buildQuery();
 		buildVidView();
 		lay = new FlowPane(queryPane, viewPane);
-		StackPane.setAlignment(queryPane, Pos.CENTER);
-		StackPane.setAlignment(viewPane, Pos.CENTER);
 
 		ScrollPane scroll = new ScrollPane(lay);
 		scroll.setFitToWidth(true);
