@@ -30,6 +30,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.web.WebView;
 import vipir.Controller;
 import vipir.Model;
@@ -71,8 +72,11 @@ public final class QueryPane extends AbstractPane {
 	private StackPane lay;
 	private BorderPane queryPane;
 	private BorderPane viewPane;
+	private BorderPane box;
 
 	private WebView webView;
+	private Label titleLabel = new Label("Video Title");
+
 
 	// **********************************************************************
 	// Constructors and Finalizer
@@ -135,21 +139,29 @@ public final class QueryPane extends AbstractPane {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void buildQuery() {
 		Label title = new Label("Vipir");
-		title.setFont(new Font("Arial", 100));
+		title.setFont(Font.font("Arial", FontWeight.BOLD, 80));
 		title.setTextFill(Color.TEAL);
 		title.setPadding(new Insets(40.0, 40.0, 40.0, 40.0));
+		BorderPane titlePane = new BorderPane(null, null, null, null, title);
 		
 		VBox movieCategories = new VBox();
 		movieCategories.getChildren().addAll(buildMoviesBox("Action"), buildMoviesBox("Comedy"), buildMoviesBox("Games"), buildMoviesBox("Scifi"));
 		movieCategories.setStyle("-fx-background-color: rgb(33,33,33);");
 		
-		queryPane = new BorderPane(movieCategories, title, null, null, null);
+		queryPane = new BorderPane(movieCategories, titlePane, null, null, null);
 		queryPane.setStyle("-fx-background-color: rgb(33,33,33);");
 	}
 
 	private void buildVidView() {
 		webView = new WebView();
-		Button b = new Button("Back To HOME LAYOUT");
+		Button b = new Button("Back To HOME");
+	    titleLabel.setPrefSize(1200, 30);
+	    titleLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
+	    titleLabel.setTextFill(Color.TEAL);
+
+	    titleLabel.setPadding(new Insets(5,20,5,20));
+	    b.setPrefSize(120, 40);
+	    titleLabel.setPadding(new Insets(0,0,0,0));
 		// action event
 		EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e) {
@@ -159,11 +171,14 @@ public final class QueryPane extends AbstractPane {
 			}
 		};
 		b.setOnAction(event);
-		VBox box = new VBox(b);
+		box = new BorderPane(null, null, b, null, titleLabel);
+		box.setPadding(new Insets(10));
+
+	    box.setStyle("-fx-background-color: #000;");
+		b.setAlignment(Pos.BASELINE_RIGHT);
 		viewPane = new BorderPane(webView, box, null, null, null);
 		box.prefWidthProperty().bind(viewPane.widthProperty());
 		box.prefHeightProperty().bind(viewPane.heightProperty().multiply(0.05));
-		box.setAlignment(Pos.TOP_CENTER);
 	}
 
 	public void setViewURL(String url) {
@@ -242,6 +257,7 @@ public final class QueryPane extends AbstractPane {
 						    @Override
 						    public void handle(MouseEvent event) {
 								setViewURL(item.getVideoUrl());
+								titleLabel.setText(item.getTitle());
 								queryPane.setVisible(false);
 								viewPane.setVisible(true);
 						    }

@@ -9,6 +9,8 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -52,6 +54,8 @@ public final class Application extends javafx.application.Application {
 
 	public void start(Stage stage) {
 		Text text = new Text("Vipir");
+		text.setFont(Font.font("Arial", FontWeight.BOLD, 35));
+
 		text.setFill(Color.TEAL);
 		
 		StackPane root = new StackPane();
@@ -105,7 +109,7 @@ public final class Application extends javafx.application.Application {
 		}
 
 		public void handle(ActionEvent e) {
-			View view1 = new View(controller, model, "View 1", 40, 40);
+			View view1 = new View(controller, model, "Vipir", 40, 40);
 			controller.addView(view1);
 			stage.hide();
 		}
