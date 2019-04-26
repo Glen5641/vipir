@@ -73,7 +73,7 @@ public final class QueryPane extends AbstractPane {
 	private BorderPane viewPane;
 
 	private WebView webView;
-	
+
 	private boolean second = false;
 
 	// **********************************************************************
@@ -115,13 +115,13 @@ public final class QueryPane extends AbstractPane {
 		buildQuery();
 		buildVidView();
 
-		
+
 		lay = new StackPane(queryPane, viewPane);
 		StackPane.setAlignment(queryPane, Pos.CENTER);
 		StackPane.setAlignment(viewPane, Pos.CENTER);
-		
+
 		base = new BorderPane(null, lay, null, null, null);
-		
+
 		viewPane.prefWidthProperty().bind(base.widthProperty());
 		queryPane.prefWidthProperty().bind(base.widthProperty());
 		lay.prefWidthProperty().bind(base.widthProperty());
@@ -130,9 +130,9 @@ public final class QueryPane extends AbstractPane {
 		viewPane.setVisible(false);
 		return base;
 	}
-	
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// TODO: 	Build Query Pane for Use of Mason's HBOXES or VBOXES. Simply build good title and menu based off 
+	// TODO: 	Build Query Pane for Use of Mason's HBOXES or VBOXES. Simply build good title and menu based off
 	//			groupme picture and then set as (border pane where pane that holds title and menu is at top) and
 	//			(Accordion "maybe" as the holder of the Array of V or H Boxes that Mason Supplies)
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -140,18 +140,13 @@ public final class QueryPane extends AbstractPane {
 
 
 		final TextField searchField = new TextField();
-		searchField.setPromptText("Search movies here."); //search <genre> movies here. 
+		searchField.setPromptText("Search movies here."); //search <genre> movies here.
 		searchField.setAlignment(Pos.BOTTOM_RIGHT);
 		searchField.setPrefWidth(200);
 		searchField.setPadding(new Insets(10.0, 10.0, 10.0, 10.0));
-		
+
 		//add combo box to searchBox that can add and remove the default categories
-<<<<<<< HEAD
 		final ComboBox cb = new ComboBox();
-=======
-		final ComboBox<String> cb = new ComboBox<String>();
-		cb.getItems().add("All");
->>>>>>> f8cfc8e9fbad57d390411464b40946cf55cce45a
 		cb.setPromptText("All");
 		cb.getItems().add("Comedy");
 		cb.getItems().add("SciFi");
@@ -159,7 +154,7 @@ public final class QueryPane extends AbstractPane {
 		cb.getItems().add("Horror");
 		cb.getItems().add("Anime");
 		cb.setPrefWidth(150);
-		
+
 		//Box to pass in text to be searched
 		HBox searchBox = new HBox();
 		searchBox.setStyle("-fx-background-color: rgb(0,128,128);");
@@ -168,22 +163,22 @@ public final class QueryPane extends AbstractPane {
 		searchBox.getChildren().addAll(cb, searchField);
 		searchBox.setSpacing(20);
        // searchBox.getChildren().add(cb);
-		
+
 		HBox.setHgrow(searchBox, Priority.ALWAYS);
-		
+
 		final VBox movieCategories = new VBox();
 		movieCategories.getChildren().addAll(buildMoviesBox("Action"), buildMoviesBox("Comedy"));
 		movieCategories.setStyle("-fx-background-color: rgb(33,33,33);");
-		
+
 		EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e) {
 				String text = searchField.getText();
-				movieCategories.getChildren().add(0, buildMoviesBox(text));			
+				movieCategories.getChildren().add(0, buildMoviesBox(text));
 				searchField.clear();
-				 
+
 			}
 		};
-	
+
 		EventHandler<ActionEvent> event2 = new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e) {
 				String genre = (String) cb.getValue();
@@ -200,22 +195,22 @@ public final class QueryPane extends AbstractPane {
 					movieCategories.getChildren().add(buildMoviesBox(genre));
 				}
 			}
-			
+
 		};
-		
+
 		cb.setOnAction(event2);
 		searchField.setOnAction(event);
-		
+
 		Label title = new Label("Vipir");
 		title.setFont(new Font("Arial", 50));
 		title.setStyle("-fx-text-fill: rgb(33,33,33);");
 		title.setPadding(new Insets(20.0, 20.0, 20.0, 20.0));
 		title.setAlignment(Pos.CENTER_LEFT);
-		
+
 		HBox titleBar = new HBox();
 		titleBar.getChildren().addAll(title, searchBox);
 		titleBar.setStyle("-fx-background-color: rgb(0,128,128);");
-		
+
 		queryPane = new BorderPane(movieCategories, titleBar, null, null, null);
 		queryPane.setStyle("-fx-background-color: rgb(33,33,33);");
 	}
@@ -287,7 +282,7 @@ public final class QueryPane extends AbstractPane {
 	// Builds a VBox with results from the search term, if it is one of the preset categories from the model we use those instead of searching.
 	private VBox buildMoviesBox(String searchTerm)
 	{
-		
+
 		//get the data
 		ArrayList<Video> data = getMovieType(searchTerm);
 		int width = 150;
@@ -295,22 +290,22 @@ public final class QueryPane extends AbstractPane {
 
 		//Generate the thumbnails and text and add listeners to link to videos
 		//This loops three times for reasons
-		Group all = new Group();	
-		for(int i = 0; i < 3; i++) 
+		Group all = new Group();
+		for(int i = 0; i < 3; i++)
 		{
 			for (final Video item : data)
 			{
-				
+
 				//Image and text
 				ImageView	icon = new ImageView(new Image(item.getPicUrl(), width, height, false, true));
 				Label		label = new Label(item.getTitle(), icon);
-	
+
 				label.setTextFill(Color.WHITE);
 				label.setContentDisplay(ContentDisplay.TOP);
 				label.setPrefWidth(100);
 				label.setStyle("-fx-background-color: rgb(33,33,33);");
 				label.setPadding(new Insets(0, W * 0.1, 0, W * 0.1));
-				
+
 				//Adds the click event to open the video
 				label.addEventHandler(MouseEvent.MOUSE_CLICKED,
 						new EventHandler<MouseEvent>() {
@@ -321,24 +316,24 @@ public final class QueryPane extends AbstractPane {
 								viewPane.setVisible(true);
 						    }
 				});
-				
+
 				// Add a rounded rectangular border around each item
 				Rectangle	shape = new Rectangle(width, height);
-	
+
 				shape.setArcWidth(4.0);
 				shape.setArcHeight(4.0);
-	
+
 				shape.setFill(Color.BLACK);
-	
+
 				shape.setStroke(Color.BLACK);
 				shape.setStrokeType(StrokeType.OUTSIDE);
 				shape.setStrokeWidth(2.0);
 				shape.setStyle("-fx-background-color: rgb(33,33,33);");
-	
+
 				// Put the border and label together, and add it to the set of items
 				StackPane one = new StackPane(shape, label);
 				one.setStyle("-fx-background-color: rgb(33,33,33);");
-	
+
 				all.getChildren().add(one);
 			}
 		}
@@ -348,8 +343,8 @@ public final class QueryPane extends AbstractPane {
 		imageBox.setSpacing(10);
 		imageBox.getChildren().addAll(all.getChildren());
 		imageBox.setStyle("-fx-background-color: rgb(33,33,33);");
-		
-		
+
+
 		//Scroll pane to scroll left and right on the entries
 		final ScrollPane scrollPane = new ScrollPane();
 		scrollPane.setContent(imageBox);
@@ -358,8 +353,8 @@ public final class QueryPane extends AbstractPane {
 		scrollPane.setHvalue(0.5);
 		scrollPane.setStyle("-fx-background-color: rgb(33,33,33);");
 		scrollPane.setFitToWidth(true);
-		
-		
+
+
 		//Stack pane to overlay the anchor pane(the arrows)
 		StackPane stackPane = new StackPane();
 		AnchorPane anchorButtons = scrollButtons(scrollPane, data.size());
@@ -384,7 +379,7 @@ public final class QueryPane extends AbstractPane {
 
 		return movies;
 	}
-	
+
 	//Anchor pane for the horizontal scrolling arrows
 	private AnchorPane scrollButtons(final ScrollPane scrollPane,final int dataSize)
 	{
@@ -393,7 +388,7 @@ public final class QueryPane extends AbstractPane {
 		rightArrow.setGraphic(createFXIcon("arrowright.png", W, H));
 		rightArrow.setStyle("-fx-focus-color: transparent; -fx-background-color: transparent;");
 		rightArrow.setOnAction(new EventHandler<ActionEvent>() {
-			
+
 				@Override
 				public void handle(ActionEvent arg0) {
 					System.out.println(scrollPane.getHvalue());
@@ -405,12 +400,12 @@ public final class QueryPane extends AbstractPane {
 
 				}
 		});
-		
+
 		Button leftArrow = new Button();
 		leftArrow.setGraphic(createFXIcon("arrowleft.png", W, H));
 		leftArrow.setStyle("-fx-focus-color: transparent; -fx-background-color: transparent;");
 		leftArrow.setOnAction(new EventHandler<ActionEvent>() {
-			
+
 				@Override
 				public void handle(ActionEvent arg0) {
 					if(scrollPane.getHvalue() <= 0.02)
@@ -420,15 +415,15 @@ public final class QueryPane extends AbstractPane {
 					scrollPane.setHvalue(scrollPane.getHvalue() - scrollSpeed);
 				}
 		});
-		
+
 		AnchorPane anchorPane = new AnchorPane();
 		AnchorPane.setLeftAnchor(leftArrow, 1.0);
 		AnchorPane.setRightAnchor(rightArrow, 1.0);
 		anchorPane.getChildren().addAll(leftArrow, rightArrow);
 		return anchorPane;
-		
+
 	}
-	
+
 	//method to deal with picking categories or searching if none were selected
 	private ArrayList<Video> getMovieType(String movieType)
 	{
