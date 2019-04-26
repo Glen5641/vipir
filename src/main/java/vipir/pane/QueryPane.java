@@ -16,9 +16,6 @@
 package vipir.pane;
 
 import java.util.ArrayList;
-
-
-//import java.lang.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -37,7 +34,6 @@ import javafx.scene.web.WebView;
 import vipir.Controller;
 import vipir.Model;
 import vipir.Video;
-
 
 //******************************************************************************
 
@@ -72,14 +68,13 @@ public final class QueryPane extends AbstractPane {
 
 	// Layout
 	private BorderPane base;
-	private FlowPane lay;
-	//private TableView<Record> table;
-	//private SelectionModel<Record> smodel;
-
+	private StackPane lay;
 	private BorderPane queryPane;
 	private BorderPane viewPane;
 
 	private WebView webView;
+
+	private boolean second = false;
 
 	// **********************************************************************
 	// Constructors and Finalizer
@@ -132,8 +127,6 @@ public final class QueryPane extends AbstractPane {
 		viewPane.prefHeightProperty().bind(base.heightProperty());
 		queryPane.setVisible(true);
 		viewPane.setVisible(false);
-
-
 		return base;
 	}
 
@@ -143,16 +136,81 @@ public final class QueryPane extends AbstractPane {
 	//			(Accordion "maybe" as the holder of the Array of V or H Boxes that Mason Supplies)
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void buildQuery() {
-		Label title = new Label("Vipir");
-		title.setFont(new Font("Arial", 100));
-		title.setTextFill(Color.TEAL);
-		title.setPadding(new Insets(40.0, 40.0, 40.0, 40.0));
 
-		VBox movieCategories = new VBox();
-		movieCategories.getChildren().addAll(buildMoviesBox("Action"), buildMoviesBox("Comedy"), buildMoviesBox("Games"), buildMoviesBox("Scifi"));
+
+		final TextField searchField = new TextField();
+		searchField.setPromptText("Search movies here."); //search <genre> movies here.
+		searchField.setAlignment(Pos.BOTTOM_RIGHT);
+		searchField.setPrefWidth(200);
+		searchField.setPadding(new Insets(10.0, 10.0, 10.0, 10.0));
+
+		//add combo box to searchBox that can add and remove the default categories
+		final ComboBox cb = new ComboBox();
+		cb.setPromptText("All");
+		cb.getItems().add("Comedy");
+		cb.getItems().add("Scifi");
+		cb.getItems().add("Action");
+		cb.getItems().add("Horror");
+		cb.getItems().add("Anime");
+		cb.setPrefWidth(150);
+
+		//Box to pass in text to be searched
+		HBox searchBox = new HBox();
+		searchBox.setStyle("-fx-background-color: rgb(0,128,128);");
+		searchBox.setAlignment(Pos.BOTTOM_RIGHT);
+		searchBox.setPadding(new Insets(10.0, 10.0, 10.0, 10.0));
+		searchBox.getChildren().addAll(cb, searchField);
+		searchBox.setSpacing(20);
+       // searchBox.getChildren().add(cb);
+
+		HBox.setHgrow(searchBox, Priority.ALWAYS);
+
+		final VBox movieCategories = new VBox();
+		movieCategories.getChildren().addAll(buildMoviesBox("Action"), buildMoviesBox("Comedy"));
 		movieCategories.setStyle("-fx-background-color: rgb(33,33,33);");
 
-		queryPane = new BorderPane(movieCategories, title, null, null, null);
+		EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent e) {
+				String text = searchField.getText();
+				movieCategories.getChildren().add(0, buildMoviesBox(text));
+				searchField.clear();
+
+			}
+		};
+
+		EventHandler<ActionEvent> event2 = new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent e) {
+				String genre = (String) cb.getValue();
+				boolean add = true;
+				for(int i = 0; i < movieCategories.getChildren().size(); i++) {
+					String title = ((Label)((VBox)(movieCategories.getChildren().get(i))).getChildren().get(0)).getText();
+					if(genre.equals(title)) {
+						movieCategories.getChildren().remove(i);
+						i--;
+						add = false;
+					}
+				}
+				if(add) {
+					movieCategories.getChildren().add(buildMoviesBox(genre));
+				}
+			}
+
+		};
+
+		cb.setOnAction(event2);
+		searchField.setOnAction(event);
+
+		Label title = new Label("Vipir");
+		title.setFont(new Font("Arial", 50));
+		title.setStyle("-fx-text-fill: rgb(33,33,33);");
+		title.setPadding(new Insets(20.0, 20.0, 20.0, 20.0));
+		title.setAlignment(Pos.CENTER_LEFT);
+
+		HBox titleBar = new HBox();
+		titleBar.getChildren().addAll(title, searchBox);
+		titleBar.setStyle("-fx-background-color: rgb(0,128,128);");
+
+		queryPane = new BorderPane(movieCategories, titleBar, null, null, null);
 		queryPane.setStyle("-fx-background-color: rgb(33,33,33);");
 	}
 
@@ -223,6 +281,7 @@ public final class QueryPane extends AbstractPane {
 	// Builds a VBox with results from the search term, if it is one of the preset categories from the model we use those instead of searching.
 	private VBox buildMoviesBox(String searchTerm)
 	{
+
 		//get the data
 		ArrayList<Video> data = getMovieType(searchTerm);
 		int width = 150;
@@ -233,8 +292,9 @@ public final class QueryPane extends AbstractPane {
 		Group all = new Group();
 		for(int i = 0; i < 3; i++)
 		{
-			for (Video item : data)
+			for (final Video item : data)
 			{
+
 				//Image and text
 				ImageView	icon = new ImageView(new Image(item.getPicUrl(), width, height, false, true));
 				Label		label = new Label(item.getTitle(), icon);
@@ -283,6 +343,7 @@ public final class QueryPane extends AbstractPane {
 		imageBox.getChildren().addAll(all.getChildren());
 		imageBox.setStyle("-fx-background-color: rgb(33,33,33);");
 
+
 		//Scroll pane to scroll left and right on the entries
 		final ScrollPane scrollPane = new ScrollPane();
 		scrollPane.setContent(imageBox);
@@ -291,6 +352,7 @@ public final class QueryPane extends AbstractPane {
 		scrollPane.setHvalue(0.5);
 		scrollPane.setStyle("-fx-background-color: rgb(33,33,33);");
 		scrollPane.setFitToWidth(true);
+
 
 		//Stack pane to overlay the anchor pane(the arrows)
 		StackPane stackPane = new StackPane();
@@ -318,9 +380,9 @@ public final class QueryPane extends AbstractPane {
 	}
 
 	//Anchor pane for the horizontal scrolling arrows
-	private AnchorPane scrollButtons(final ScrollPane scrollPane,int dataSize)
+	private AnchorPane scrollButtons(final ScrollPane scrollPane,final int dataSize)
 	{
-		double scrollSpeed = 1.15/(double)(dataSize*3);
+		final double scrollSpeed = 1.15/(double)(dataSize*3);
 		Button rightArrow = new Button();
 		rightArrow.setGraphic(createFXIcon("arrowright.png", W, H));
 		rightArrow.setStyle("-fx-focus-color: transparent; -fx-background-color: transparent;");
