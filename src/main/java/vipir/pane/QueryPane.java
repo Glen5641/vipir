@@ -135,21 +135,33 @@ public final class QueryPane extends AbstractPane {
 	//			(Accordion "maybe" as the holder of the Array of V or H Boxes that Mason Supplies)
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void buildQuery() {
-		//Box to pass in text to be searched
-		HBox searchBox = new HBox();
+
+
 		TextField searchField = new TextField();
 		searchField.setPromptText("Search movies here."); //search <genre> movies here. 
-		searchBox.getChildren().add(searchField);
+		searchField.setAlignment(Pos.BOTTOM_RIGHT);
+		searchField.setPrefWidth(200);
+		searchField.setPadding(new Insets(10.0, 10.0, 10.0, 10.0));
+		
+		//Box to pass in text to be searched
+		HBox searchBox = new HBox();
 		searchBox.setStyle("-fx-background-color: rgb(0,128,128);");
+		searchBox.setAlignment(Pos.BOTTOM_RIGHT);
+		searchBox.setPadding(new Insets(10.0, 10.0, 10.0, 10.0));
+		searchBox.getChildren().add(searchField);
+		//TODO add combo box to searchBox that can add and remove the default categories
+		
+		HBox.setHgrow(searchBox, Priority.ALWAYS);
 		
 		VBox movieCategories = new VBox();
-		movieCategories.getChildren().addAll(buildMoviesBox("Action"), buildMoviesBox("Comedy"), buildMoviesBox("Games"), buildMoviesBox("Scifi"));
+		movieCategories.getChildren().addAll(buildMoviesBox("Action"), buildMoviesBox("Comedy"));
 		movieCategories.setStyle("-fx-background-color: rgb(33,33,33);");
 		
 		EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e) {
 				String text = searchField.getText();
-				movieCategories.getChildren().addAll(buildMoviesBox(text));
+				movieCategories.getChildren().add(0, buildMoviesBox(text));
+				searchField.clear();
 				 
 			}
 		};
@@ -157,12 +169,16 @@ public final class QueryPane extends AbstractPane {
 		searchField.setOnAction(event);
 		
 		Label title = new Label("Vipir");
-		title.setFont(new Font("Arial", 100));
-		title.setTextFill(Color.TEAL);
-		title.setPadding(new Insets(40.0, 40.0, 40.0, 40.0));
+		title.setFont(new Font("Arial", 50));
+		title.setStyle("-fx-text-fill: rgb(33,33,33);");
+		title.setPadding(new Insets(20.0, 20.0, 20.0, 20.0));
+		title.setAlignment(Pos.CENTER_LEFT);
 		
-		queryPane = new BorderPane(movieCategories, title, null, null, null);
-		queryPane.setTop(searchBox);
+		HBox titleBar = new HBox();
+		titleBar.getChildren().addAll(title, searchBox);
+		titleBar.setStyle("-fx-background-color: rgb(0,128,128);");
+		
+		queryPane = new BorderPane(movieCategories, titleBar, null, null, null);
 		queryPane.setStyle("-fx-background-color: rgb(33,33,33);");
 	}
 
