@@ -137,29 +137,43 @@ public final class QueryPane extends AbstractPane {
 	private void buildQuery() {
 
 
-		TextField searchField = new TextField();
+		final TextField searchField = new TextField();
 		searchField.setPromptText("Search movies here."); //search <genre> movies here. 
 		searchField.setAlignment(Pos.BOTTOM_RIGHT);
 		searchField.setPrefWidth(200);
 		searchField.setPadding(new Insets(10.0, 10.0, 10.0, 10.0));
+		
+		//add combo box to searchBox that can add and remove the default categories
+		final ComboBox cb = new ComboBox();
+		cb.getItems().add("All");
+		cb.setPromptText("All");
+		cb.getItems().add("Comedy");
+		cb.getItems().add("SciFi");
+		cb.getItems().add("Action");
+		cb.getItems().add("Horror");
+		cb.getItems().add("Anime");
 		
 		//Box to pass in text to be searched
 		HBox searchBox = new HBox();
 		searchBox.setStyle("-fx-background-color: rgb(0,128,128);");
 		searchBox.setAlignment(Pos.BOTTOM_RIGHT);
 		searchBox.setPadding(new Insets(10.0, 10.0, 10.0, 10.0));
-		searchBox.getChildren().add(searchField);
-		//TODO add combo box to searchBox that can add and remove the default categories
+		searchBox.getChildren().addAll(searchField, cb);
+       // searchBox.getChildren().add(cb);
 		
 		HBox.setHgrow(searchBox, Priority.ALWAYS);
 		
-		VBox movieCategories = new VBox();
+		final VBox movieCategories = new VBox();
 		movieCategories.getChildren().addAll(buildMoviesBox("Action"), buildMoviesBox("Comedy"));
 		movieCategories.setStyle("-fx-background-color: rgb(33,33,33);");
 		
 		EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e) {
 				String text = searchField.getText();
+				String genre = (String) cb.getValue();
+				if(!genre.equals("All")) {
+					movieCategories.getChildren().add(0, buildMoviesBox(genre));			
+				}
 				movieCategories.getChildren().add(0, buildMoviesBox(text));
 				searchField.clear();
 				 
