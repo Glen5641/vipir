@@ -124,7 +124,9 @@ public final class QueryPane extends AbstractPane {
 		StackPane.setAlignment(viewPane, Pos.CENTER);
 
 		ScrollPane scroll = new ScrollPane(lay);
-	    base = new BorderPane(null, null, null, null, scroll);
+		scroll.setFitToWidth(true);
+		scroll.setFitToHeight(true);
+	    base = new BorderPane(scroll, null, null, null, null);
 
 
 		viewPane.prefWidthProperty().bind(base.widthProperty());
