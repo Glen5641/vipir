@@ -120,7 +120,7 @@ public final class QueryPane extends AbstractPane {
 		buildQuery();
 		buildVidView();
 		lay = new FlowPane(queryPane, viewPane);
-
+		lay.setStyle("-fx-background-color: rgb(33,33,33);");
 		ScrollPane scroll = new ScrollPane(lay);
 		scroll.setFitToWidth(true);
 		scroll.setFitToHeight(true);

@@ -44,7 +44,6 @@ public final class View {
 		stage.setY(bounds.getMinY());
 		stage.setWidth(bounds.getWidth() - 400);
 		stage.setHeight(bounds.getHeight());
-
 		stage.show();
 	}
 
