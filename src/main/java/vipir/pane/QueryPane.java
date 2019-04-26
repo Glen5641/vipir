@@ -146,7 +146,12 @@ public final class QueryPane extends AbstractPane {
 		searchField.setPadding(new Insets(10.0, 10.0, 10.0, 10.0));
 		
 		//add combo box to searchBox that can add and remove the default categories
+<<<<<<< HEAD
 		final ComboBox cb = new ComboBox();
+=======
+		final ComboBox<String> cb = new ComboBox<String>();
+		cb.getItems().add("All");
+>>>>>>> f8cfc8e9fbad57d390411464b40946cf55cce45a
 		cb.setPromptText("All");
 		cb.getItems().add("Comedy");
 		cb.getItems().add("SciFi");
