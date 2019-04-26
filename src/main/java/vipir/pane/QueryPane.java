@@ -149,7 +149,7 @@ public final class QueryPane extends AbstractPane {
 		final ComboBox cb = new ComboBox();
 		cb.setPromptText("All");
 		cb.getItems().add("Comedy");
-		cb.getItems().add("SciFi");
+		cb.getItems().add("Scifi");
 		cb.getItems().add("Action");
 		cb.getItems().add("Horror");
 		cb.getItems().add("Anime");
