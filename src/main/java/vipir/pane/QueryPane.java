@@ -98,12 +98,12 @@ public final class QueryPane extends AbstractPane {
 	// The controller calls this method when it adds a view.
 	// Set up the nodes in the view with data accessed through the controller.
 	public void initialize() {
+
 	}
 
 	// The controller calls this method when it removes a view.
 	// Unregister event and property listeners for the nodes in the view.
 	public void terminate() {
-		// smodel.selectedIndexProperty().removeListener(this::changeIndex);
 	}
 
 	// The controller calls this method whenever something changes in the model.
@@ -122,11 +122,11 @@ public final class QueryPane extends AbstractPane {
 		lay = new FlowPane(queryPane, viewPane);
 		StackPane.setAlignment(queryPane, Pos.CENTER);
 		StackPane.setAlignment(viewPane, Pos.CENTER);
-		
+
 		ScrollPane scroll = new ScrollPane(lay);
 	    base = new BorderPane(null, null, null, null, scroll);
 
-		
+
 		viewPane.prefWidthProperty().bind(base.widthProperty());
 		queryPane.prefWidthProperty().bind(base.widthProperty());
 		lay.prefWidthProperty().bind(base.widthProperty());
@@ -150,7 +150,7 @@ public final class QueryPane extends AbstractPane {
 		title.setPadding(new Insets(40.0, 40.0, 40.0, 40.0));
 
 		VBox movieCategories = new VBox();
-		movieCategories.getChildren().addAll(buildMoviesBox("Action"), buildMoviesBox("Comedy"), buildMoviesBox("Bruce Lee"), buildMoviesBox("Games"));
+		movieCategories.getChildren().addAll(buildMoviesBox("Action"), buildMoviesBox("Comedy"), buildMoviesBox("Games"), buildMoviesBox("Scifi"));
 		movieCategories.setStyle("-fx-background-color: rgb(33,33,33);");
 
 		queryPane = new BorderPane(movieCategories, title, null, null, null);
