@@ -170,16 +170,26 @@ public final class QueryPane extends AbstractPane {
 		EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e) {
 				String text = searchField.getText();
-				String genre = (String) cb.getValue();
-				if(!genre.equals("All")) {
-					movieCategories.getChildren().add(0, buildMoviesBox(genre));			
-				}
-				movieCategories.getChildren().add(0, buildMoviesBox(text));
+				movieCategories.getChildren().add(0, buildMoviesBox(text));			
 				searchField.clear();
 				 
 			}
 		};
 		
+		EventHandler<ActionEvent> event2 = new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent e) {
+				String genre = (String) cb.getValue();
+				if(!genre.equals("All")) {
+					movieCategories.getChildren().add(0, buildMoviesBox(genre));			
+				}
+				else {
+				movieCategories.getChildren().add(0, buildMoviesBox("All"));
+				}
+			}
+			
+		};
+		
+		cb.setOnAction(event2);
 		searchField.setOnAction(event);
 		
 		Label title = new Label("Vipir");
