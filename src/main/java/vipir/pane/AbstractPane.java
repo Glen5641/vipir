@@ -25,14 +25,6 @@ import vipir.Model;
 import vipir.resources.Resources;
 import javafx.scene.layout.*;
 
-//******************************************************************************
-
-/**
- * The <CODE>AbstractPane</CODE> class.
- *
- * @author Chris Weaver
- * @version %I%, %G%
- */
 public abstract class AbstractPane {
 	// **********************************************************************
 	// Public Class Members

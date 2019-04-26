@@ -1,6 +1,7 @@
 
 //******************************************************************************
 //Copyright (C) 2019 University of Oklahoma Board of Trustees.
+
 //******************************************************************************
 //Last modified: Sun Feb 24 19:56:48 2019 by Chris Weaver
 //******************************************************************************
@@ -35,14 +36,6 @@ import vipir.Controller;
 import vipir.Model;
 import vipir.Video;
 
-//******************************************************************************
-
-/**
- * The <CODE>TablePane</CODE> class.
- *
- * @author Chris Weaver
- * @version %I%, %G%
- */
 public final class QueryPane extends AbstractPane {
 	// **********************************************************************
 	// Private Class Members
